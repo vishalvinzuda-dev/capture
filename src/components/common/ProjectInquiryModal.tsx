@@ -115,7 +115,7 @@ export const ProjectInquiryModal: React.FC<ProjectInquiryModalProps> = ({
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-neutral-100 bg-neutral-50/70">
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-sm">
+                <div className="w-8 h-8 rounded-lg bg-[#F9BA1D] text-neutral-900 flex items-center justify-center font-bold text-sm shadow-2xs">
                   CC
                 </div>
                 <div>
@@ -151,13 +151,13 @@ export const ProjectInquiryModal: React.FC<ProjectInquiryModalProps> = ({
                             onClick={() => toggleService(svc)}
                             className={`flex items-center justify-between p-3 rounded-xl text-left text-xs font-medium border transition-all ${
                               isSelected
-                                ? 'bg-blue-50/70 border-blue-600 text-blue-900 shadow-xs'
+                                ? 'bg-amber-50/80 border-[#F9BA1D] text-neutral-900 shadow-xs ring-1 ring-[#F9BA1D]/30'
                                 : 'bg-white border-neutral-200 text-neutral-700 hover:border-neutral-300'
                             }`}
                           >
                             <span>{svc}</span>
                             {isSelected ? (
-                              <Check className="w-4 h-4 text-blue-600 shrink-0" />
+                              <Check className="w-4 h-4 text-[#D97706] shrink-0" />
                             ) : (
                               <div className="w-4 h-4 rounded-full border border-neutral-300 shrink-0" />
                             )}
@@ -176,7 +176,7 @@ export const ProjectInquiryModal: React.FC<ProjectInquiryModalProps> = ({
                       <select
                         value={budget}
                         onChange={(e) => setBudget(e.target.value)}
-                        className="w-full px-3.5 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-xs font-medium text-neutral-800 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600"
+                        className="w-full px-3.5 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-xs font-medium text-neutral-800 focus:outline-none focus:ring-2 focus:ring-[#F9BA1D]/40 focus:border-[#F9BA1D]"
                       >
                         {BUDGET_OPTIONS.map((opt) => (
                           <option key={opt} value={opt}>
@@ -193,7 +193,7 @@ export const ProjectInquiryModal: React.FC<ProjectInquiryModalProps> = ({
                       <select
                         value={timeline}
                         onChange={(e) => setTimeline(e.target.value)}
-                        className="w-full px-3.5 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-xs font-medium text-neutral-800 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600"
+                        className="w-full px-3.5 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-xs font-medium text-neutral-800 focus:outline-none focus:ring-2 focus:ring-[#F9BA1D]/40 focus:border-[#F9BA1D]"
                       >
                         {TIMELINE_OPTIONS.map((opt) => (
                           <option key={opt} value={opt}>
@@ -218,7 +218,7 @@ export const ProjectInquiryModal: React.FC<ProjectInquiryModalProps> = ({
                           placeholder="Your Name *"
                           value={formData.name}
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                          className="w-full pl-10 pr-3.5 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600"
+                          className="w-full pl-10 pr-3.5 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-[#F9BA1D]/40 focus:border-[#F9BA1D]"
                         />
                       </div>
                       <div className="relative">
@@ -228,7 +228,7 @@ export const ProjectInquiryModal: React.FC<ProjectInquiryModalProps> = ({
                           placeholder="Company / Brand Name"
                           value={formData.company}
                           onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                          className="w-full pl-10 pr-3.5 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600"
+                          className="w-full pl-10 pr-3.5 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-[#F9BA1D]/40 focus:border-[#F9BA1D]"
                         />
                       </div>
                       <div className="relative">
@@ -239,7 +239,7 @@ export const ProjectInquiryModal: React.FC<ProjectInquiryModalProps> = ({
                           placeholder="Email Address *"
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          className="w-full pl-10 pr-3.5 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600"
+                          className="w-full pl-10 pr-3.5 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-[#F9BA1D]/40 focus:border-[#F9BA1D]"
                         />
                       </div>
                       <div className="relative">
@@ -250,7 +250,7 @@ export const ProjectInquiryModal: React.FC<ProjectInquiryModalProps> = ({
                           placeholder="Phone / WhatsApp *"
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          className="w-full pl-10 pr-3.5 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600"
+                          className="w-full pl-10 pr-3.5 py-2.5 bg-neutral-50 border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-[#F9BA1D]/40 focus:border-[#F9BA1D]"
                         />
                       </div>
                     </div>
@@ -260,7 +260,7 @@ export const ProjectInquiryModal: React.FC<ProjectInquiryModalProps> = ({
                         placeholder="Tell us about the project, business challenge, or specific deliverables..."
                         value={formData.details}
                         onChange={(e) => setFormData({ ...formData, details: e.target.value })}
-                        className="w-full p-3.5 bg-neutral-50 border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 resize-none"
+                        className="w-full p-3.5 bg-neutral-50 border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-[#F9BA1D]/40 focus:border-[#F9BA1D] resize-none"
                       />
                     </div>
                   </div>
@@ -298,7 +298,7 @@ export const ProjectInquiryModal: React.FC<ProjectInquiryModalProps> = ({
                   animate={{ opacity: 1, scale: 1 }}
                   className="py-8 text-center space-y-4"
                 >
-                  <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto border border-blue-200">
+                  <div className="w-16 h-16 bg-amber-50 text-[#D97706] rounded-2xl flex items-center justify-center mx-auto border border-amber-200">
                     <Sparkles className="w-8 h-8" />
                   </div>
                   <h4 className="text-xl font-bold text-neutral-900 font-display">

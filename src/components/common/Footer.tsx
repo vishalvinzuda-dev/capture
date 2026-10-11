@@ -17,11 +17,16 @@ export const Footer: React.FC = () => {
           {/* Brand Col */}
           <div className="md:col-span-5 space-y-4">
             <div className="flex items-center space-x-2.5">
-              <div className="w-8 h-8 rounded-lg bg-neutral-900 text-white flex items-center justify-center font-bold text-xs">
-                CC
-              </div>
-              <span className="text-lg font-bold text-neutral-900 font-display tracking-tight">
-                Capture Creatives
+              <img
+                src="/Capure.svg"
+                alt="Capture Creatives"
+                className="w-8 h-8 object-contain"
+              />
+              <span
+                className="text-xl text-neutral-900 tracking-tight"
+                style={{ fontFamily: "'Quicksand', sans-serif", fontWeight: 600 }}
+              >
+                capture creatives
               </span>
             </div>
 
@@ -58,7 +63,6 @@ export const Footer: React.FC = () => {
               <li><a href="#difference" className="text-neutral-600 hover:text-neutral-950 transition-colors">The Unified Advantage</a></li>
               <li><a href="#case-study" className="text-neutral-600 hover:text-neutral-950 transition-colors">Prabhu Group Case Study</a></li>
               <li><a href="#why-us" className="text-neutral-600 hover:text-neutral-950 transition-colors">Why Businesses Choose CC</a></li>
-              <li><a href="#impact" className="text-neutral-600 hover:text-neutral-950 transition-colors">Community & 10% Pledge</a></li>
               <li><a href="#contact" className="text-neutral-600 hover:text-neutral-950 transition-colors">Start Project Inquiry</a></li>
             </ul>
           </div>
@@ -67,7 +71,7 @@ export const Footer: React.FC = () => {
         {/* Giant Editorial Brand Banner */}
         <div className="py-12 border-b border-neutral-100 flex items-center justify-center">
           <h2 className="text-7xl sm:text-9xl md:text-[11rem] font-extrabold tracking-tighter text-neutral-900 font-display select-none leading-none">
-            capture<span className="text-sky-500">.</span>
+            capture<span className="text-[#F9BA1D]">.</span>
           </h2>
         </div>
 

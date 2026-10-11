@@ -9,21 +9,20 @@ import { PrabhuGroupCaseStudy } from './components/casestudy/PrabhuGroupCaseStud
 import { SelectedWork } from './components/portfolio/SelectedWork';
 import { TestimonialsSection } from './components/testimonials/TestimonialsSection';
 import { WhyChooseUs } from './components/why/WhyChooseUs';
-import { SocialImpact } from './components/impact/SocialImpact';
-import { AchievementsSection } from './components/achievements/AchievementsSection';
 import { ProcessSection } from './components/process/ProcessSection';
-import { ProjectEstimator } from './components/calculator/ProjectEstimator';
 import { DramaticCTA } from './components/cta/DramaticCTA';
 import { ContactSection } from './components/contact/ContactSection';
 import { Footer } from './components/common/Footer';
 import { ProjectInquiryModal } from './components/common/ProjectInquiryModal';
 import { MeelyPage } from './meely/MeelyPage';
+import { ProjectsPage } from './pages/ProjectsPage';
 
 const TimelineDemo = React.lazy(() => import('./demo'));
 
 export const App: React.FC = () => {
   const [isDemoRoute, setIsDemoRoute] = useState(false);
   const [isMeelyRoute, setIsMeelyRoute] = useState(false);
+  const [isProjectsRoute, setIsProjectsRoute] = useState(false);
   const [splashFinished, setSplashFinished] = useState(false);
   const [inquiryModalOpen, setInquiryModalOpen] = useState(false);
   const [preselectedService, setPreselectedService] = useState<string | undefined>(undefined);
@@ -36,6 +35,8 @@ export const App: React.FC = () => {
       setIsDemoRoute(isDemo);
       const isMeely = path === '/meely' || path.startsWith('/meely/') || hash === '#/meely' || hash === '#meely';
       setIsMeelyRoute(isMeely);
+      const isProjects = path === '/projects' || path.startsWith('/projects/') || hash === '#/projects' || hash === '#projects';
+      setIsProjectsRoute(isProjects);
     };
 
     checkRoute();
@@ -75,6 +76,45 @@ export const App: React.FC = () => {
     return <MeelyPage />;
   }
 
+  // If on /projects route, render dedicated category-wise Projects page
+  if (isProjectsRoute) {
+    return (
+      <div className="min-h-screen bg-[#FAFAF9] text-[#18181B] font-sans antialiased selection:bg-neutral-900 selection:text-white relative">
+        <Navbar
+          onOpenInquiry={handleOpenInquiry}
+          currentRoute="projects"
+          onNavigate={(route) => {
+            if (route === 'home') {
+              window.location.hash = '';
+              setIsProjectsRoute(false);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (route === 'about') {
+              window.location.hash = '';
+              setIsProjectsRoute(false);
+              setTimeout(() => {
+                document.getElementById('why-us')?.scrollIntoView({ behavior: 'smooth' });
+              }, 100);
+            }
+          }}
+        />
+        <ProjectsPage
+          onOpenInquiry={handleOpenInquiry}
+          onNavigateHome={() => {
+            window.location.hash = '';
+            setIsProjectsRoute(false);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+        />
+        <Footer />
+        <ProjectInquiryModal
+          isOpen={inquiryModalOpen}
+          onClose={() => setInquiryModalOpen(false)}
+          preselectedService={preselectedService}
+        />
+      </div>
+    );
+  }
+
   // Standard Main Site route (/)
   return (
     <div className="min-h-screen bg-[#FAFAF9] text-[#18181B] font-sans antialiased selection:bg-neutral-900 selection:text-white relative">
@@ -88,7 +128,21 @@ export const App: React.FC = () => {
       <div className={`transition-opacity duration-700 ${splashFinished ? 'opacity-100' : 'opacity-0'}`}>
         
         {/* Navigation */}
-        <Navbar onOpenInquiry={handleOpenInquiry} />
+        <Navbar
+          onOpenInquiry={handleOpenInquiry}
+          currentRoute="home"
+          onNavigate={(route) => {
+            if (route === 'projects') {
+              window.location.hash = '#/projects';
+              setIsProjectsRoute(true);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (route === 'about') {
+              document.getElementById('why-us')?.scrollIntoView({ behavior: 'smooth' });
+            } else {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+          }}
+        />
 
         {/* Hero Section */}
         <HeroSection onOpenInquiry={handleOpenInquiry} />
@@ -114,17 +168,8 @@ export const App: React.FC = () => {
         {/* Why Businesses Choose CC */}
         <WhyChooseUs />
 
-        {/* Social Impact */}
-        <SocialImpact />
-
-        {/* Achievements Timeline */}
-        <AchievementsSection />
-
         {/* 5-Step Process */}
         <ProcessSection />
-
-        {/* Interactive Scope & Cost Estimator */}
-        <ProjectEstimator onOpenInquiry={handleOpenInquiry} />
 
         {/* Dramatic CTA */}
         <DramaticCTA onOpenInquiry={handleOpenInquiry} />

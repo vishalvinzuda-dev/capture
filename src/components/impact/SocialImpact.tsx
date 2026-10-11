@@ -10,11 +10,6 @@ export const SocialImpact: React.FC = () => {
         
         {/* Section Header */}
         <div className="max-w-3xl mb-16">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold mb-4">
-            <HeartHandshake className="w-3.5 h-3.5" />
-            <span>Community & Social Responsibility</span>
-          </div>
-
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-neutral-900 tracking-tight leading-tight font-display">
             {SOCIAL_IMPACT_DATA.title}
           </h2>
@@ -33,10 +28,6 @@ export const SocialImpact: React.FC = () => {
         >
           <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
             <div className="max-w-2xl">
-              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-neutral-800 text-blue-400 text-xs font-mono mb-4 border border-neutral-700">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Foundational Commitment</span>
-              </div>
               <h3 className="text-2xl sm:text-3xl font-extrabold font-display leading-snug">
                 10% of Studio Profits Personally Contributed Towards Social & Community Initiatives
               </h3>
@@ -46,7 +37,7 @@ export const SocialImpact: React.FC = () => {
             </div>
 
             <div className="shrink-0 p-6 rounded-2xl bg-neutral-800/80 border border-neutral-700 text-center w-full lg:w-auto">
-              <div className="text-4xl sm:text-5xl font-extrabold text-blue-400 font-display">
+              <div className="text-4xl sm:text-5xl font-extrabold text-[#F9BA1D] font-display">
                 10%
               </div>
               <div className="text-xs font-bold text-white uppercase tracking-wider mt-1 font-display">
@@ -70,7 +61,7 @@ export const SocialImpact: React.FC = () => {
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-2xl font-black font-display text-blue-600">
+                  <span className="text-2xl font-black font-display text-[#D97706]">
                     {item.stat}
                   </span>
                   <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-neutral-100 text-neutral-600 border border-neutral-200">

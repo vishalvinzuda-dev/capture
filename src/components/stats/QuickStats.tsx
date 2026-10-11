@@ -71,7 +71,7 @@ export const QuickStats: React.FC = () => {
                 className={`flex flex-col ${idx !== 0 ? 'pt-6 sm:pt-0 sm:pl-8' : ''}`}
               >
                 <div className="flex items-center space-x-2 mb-2 text-neutral-400">
-                  <Icon className="w-4 h-4 text-blue-600" />
+                  <Icon className="w-4 h-4 text-[#D97706]" />
                   <span className="text-[11px] font-mono tracking-wider uppercase text-neutral-500">
                     {stat.label}
                   </span>

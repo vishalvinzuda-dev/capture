@@ -153,14 +153,14 @@ export const SERVICES_DATA: ServiceItem[] = [
 ];
 
 export const WORKFLOW_PIPELINE = [
-  { step: '01', name: 'IDEA', desc: 'Discovery & Strategic Framing', color: 'from-blue-500/20 to-blue-500/5' },
-  { step: '02', name: 'BRANDING', desc: 'Visual Identity & Design Language', color: 'from-indigo-500/20 to-indigo-500/5' },
-  { step: '03', name: 'DESIGN', desc: 'Tactile & Digital Collaterals', color: 'from-violet-500/20 to-violet-500/5' },
-  { step: '04', name: 'PRINT', desc: 'Precision Production & Finish', color: 'from-sky-500/20 to-sky-500/5' },
-  { step: '05', name: 'MARKETING', desc: 'Launch Campaigns & Shoots', color: 'from-cyan-500/20 to-cyan-500/5' },
-  { step: '06', name: 'WEBSITE', desc: 'High-Impact Digital Hub', color: 'from-emerald-500/20 to-emerald-500/5' },
+  { step: '01', name: 'IDEA', desc: 'Discovery & Strategic Framing', color: 'from-amber-400/25 to-amber-500/5' },
+  { step: '02', name: 'BRANDING', desc: 'Visual Identity & Design Language', color: 'from-amber-500/25 to-amber-600/10' },
+  { step: '03', name: 'DESIGN', desc: 'Tactile & Digital Collaterals', color: 'from-amber-600/20 to-amber-700/5' },
+  { step: '04', name: 'PRINT', desc: 'Precision Production & Finish', color: 'from-amber-500/20 to-amber-500/5' },
+  { step: '05', name: 'MARKETING', desc: 'Launch Campaigns & Shoots', color: 'from-amber-400/20 to-amber-500/5' },
+  { step: '06', name: 'WEBSITE', desc: 'High-Impact Digital Hub', color: 'from-amber-500/20 to-amber-600/5' },
   { step: '07', name: 'SOFTWARE', desc: 'Tailored ERP & Automation', color: 'from-amber-500/20 to-amber-500/5' },
-  { step: '08', name: 'BUSINESS GROWTH', desc: 'Compounding Scalable Impact', color: 'from-blue-600/30 to-indigo-600/10' },
+  { step: '08', name: 'BUSINESS GROWTH', desc: 'Compounding Scalable Impact', color: 'from-amber-500/30 to-amber-700/15' },
 ];
 
 export const PRABHU_CASE_STUDY = {

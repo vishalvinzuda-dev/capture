@@ -35,20 +35,16 @@ export const PrabhuGroupCaseStudy: React.FC<CaseStudyProps> = ({ onOpenInquiry }
         
         {/* Section Header Badge & Titles */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold mb-4">
-            <Cpu className="w-3.5 h-3.5" />
-            <span>Featured Enterprise Case Study · SaaS Level Solution</span>
-          </div>
-
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-neutral-900 tracking-tight leading-tight font-display">
-            {PRABHU_CASE_STUDY.title}
+            FROM PROBLEM <br className="hidden sm:inline" />
+            <span className="text-outline-dark">TO PLATFORM.</span>
           </h2>
 
-          <p className="mt-2 text-base sm:text-lg font-semibold text-neutral-700 font-display">
+          <p className="mt-4 text-base sm:text-lg font-semibold text-neutral-700 font-display">
             {PRABHU_CASE_STUDY.subtitle}
           </p>
 
-          <p className="mt-4 text-xs sm:text-sm text-neutral-600 leading-relaxed max-w-2xl mx-auto">
+          <p className="mt-4 text-xs sm:text-sm text-neutral-600 leading-relaxed max-w-2xl mx-auto font-subheading">
             {PRABHU_CASE_STUDY.overview}
           </p>
         </div>
@@ -60,7 +56,10 @@ export const PrabhuGroupCaseStudy: React.FC<CaseStudyProps> = ({ onOpenInquiry }
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 pb-8 mb-8 border-b border-neutral-200">
             {PRABHU_CASE_STUDY.results.map((res, i) => (
               <div key={i} className="p-4 rounded-xl bg-neutral-50 border border-neutral-200/80">
-                <div className="text-2xl sm:text-3xl font-extrabold text-blue-600 font-display">
+                <div
+                  className="text-2xl sm:text-3xl font-bold text-[#D97706] tracking-tight"
+                  style={{ fontFamily: "'DM Sans', sans-serif" }}
+                >
                   {res.metric}
                 </div>
                 <div className="text-xs font-bold text-neutral-900 mt-1 font-display">
@@ -73,101 +72,119 @@ export const PrabhuGroupCaseStudy: React.FC<CaseStudyProps> = ({ onOpenInquiry }
             ))}
           </div>
 
-          {/* Interactive Before vs After Visualizer */}
-          <div className="mb-10">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-              <div>
-                <h3 className="text-lg font-bold text-neutral-900 font-display">
-                  Operational Transformation Visualizer
-                </h3>
-                <p className="text-xs text-neutral-500">
-                  Toggle to compare legacy friction with the custom deployed ERP platform.
-                </p>
-              </div>
-
-              {/* Toggle Switch */}
-              <div className="flex items-center p-1 bg-neutral-100 rounded-xl border border-neutral-200 self-start sm:self-auto">
-                <button
-                  onClick={() => setViewState('BEFORE')}
-                  className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
-                    viewState === 'BEFORE'
-                      ? 'bg-rose-50 text-rose-700 border border-rose-200 shadow-2xs'
-                      : 'text-neutral-600 hover:text-neutral-900'
-                  }`}
-                >
-                  Legacy State (Before)
-                </button>
-                <button
-                  onClick={() => setViewState('AFTER')}
-                  className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
-                    viewState === 'AFTER'
-                      ? 'bg-blue-600 text-white shadow-xs'
-                      : 'text-neutral-600 hover:text-neutral-900'
-                  }`}
-                >
-                  Engineered ERP (After)
-                </button>
-              </div>
+          {/* Operational Transformation: Side-by-Side Split with Guiding Arrow */}
+          <div className="mb-12">
+            <div className="mb-6">
+              <h3 className="text-lg font-bold text-neutral-900 font-display">
+                Operational Transformation Architecture
+              </h3>
+              <p className="text-xs text-neutral-500 font-subheading">
+                Compare the friction of disconnected legacy workflows directly against the engineered custom ERP solution.
+              </p>
             </div>
 
-            {/* Before / After Panel Box */}
-            <AnimatePresence mode="wait">
-              {viewState === 'BEFORE' ? (
-                <motion.div
-                  key="before"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="p-6 sm:p-8 rounded-2xl bg-neutral-900 text-white border border-neutral-800"
-                >
+            {/* 2-Side Grid with Arrow Illustrator */}
+            <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+              
+              {/* Left Side: Legacy State (Before) */}
+              <div className="lg:col-span-6 p-6 sm:p-8 rounded-2xl bg-neutral-900 text-white border border-neutral-800 flex flex-col justify-between relative shadow-sm">
+                <div>
                   <div className="flex items-center space-x-2 text-rose-400 mb-4">
-                    <FileSpreadsheet className="w-5 h-5" />
-                    <span className="text-xs font-mono uppercase tracking-wider">
-                      The Challenge · Disconnected Legacy Workflow
+                    <FileSpreadsheet className="w-5 h-5 shrink-0" />
+                    <span className="text-xs font-mono uppercase tracking-wider font-semibold">
+                      Legacy State · The Challenge
                     </span>
                   </div>
-                  <p className="text-sm text-neutral-300 mb-6">
+                  <h4 className="text-base font-bold text-white mb-2 font-display">
+                    Disconnected Legacy Workflow
+                  </h4>
+                  <p className="text-xs sm:text-sm text-neutral-300 mb-6 leading-relaxed font-subheading">
                     {PRABHU_CASE_STUDY.challenge}
                   </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-2.5">
                     {PRABHU_CASE_STUDY.beforePoints.map((pt, i) => (
-                      <div key={i} className="flex items-center p-3 rounded-xl bg-neutral-800/80 border border-neutral-700 text-xs text-neutral-300">
-                        <span className="w-4 h-4 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-[10px] mr-3 shrink-0">
+                      <div key={i} className="flex items-start p-3 rounded-xl bg-neutral-800/80 border border-neutral-700 text-xs text-neutral-300">
+                        <span className="w-4 h-4 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-[10px] mr-3 mt-0.5 shrink-0">
                           ✕
                         </span>
-                        <span>{pt}</span>
+                        <span className="leading-snug">{pt}</span>
                       </div>
                     ))}
                   </div>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="after"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-blue-900 via-neutral-900 to-indigo-950 text-white border border-blue-500/30 shadow-lg"
-                >
-                  <div className="flex items-center space-x-2 text-blue-300 mb-4">
-                    <Zap className="w-5 h-5" />
-                    <span className="text-xs font-mono uppercase tracking-wider">
-                      The Solution · Tailored Central Platform
+                </div>
+
+                <div className="mt-6 pt-4 border-t border-neutral-800 text-[11px] font-mono text-rose-400/80">
+                  STATUS: Friction, latency & operational bottlenecks.
+                </div>
+              </div>
+
+              {/* Center Floating Guiding Arrow Indicator (Desktop absolute overlay & mobile indicator) */}
+              <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none items-center justify-center">
+                <div className="w-14 h-14 rounded-full bg-white border-2 border-neutral-900 shadow-xl flex items-center justify-center transition-transform hover:scale-110">
+                  <svg
+                    className="w-7 h-7 text-neutral-900"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.75"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <line x1="4" y1="12" x2="20" y2="12" />
+                    <polyline points="13 5 20 12 13 19" />
+                  </svg>
+                </div>
+              </div>
+
+              {/* Mobile Transition Divider Arrow */}
+              <div className="flex lg:hidden justify-center items-center py-1">
+                <div className="w-10 h-10 rounded-full bg-white border-2 border-neutral-900 shadow-md flex items-center justify-center rotate-90 sm:rotate-90">
+                  <svg
+                    className="w-5 h-5 text-neutral-900"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.75"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <line x1="4" y1="12" x2="20" y2="12" />
+                    <polyline points="13 5 20 12 13 19" />
+                  </svg>
+                </div>
+              </div>
+
+              {/* Right Side: Engineered ERP (After) */}
+              <div className="lg:col-span-6 p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-neutral-900 via-neutral-900 to-amber-950/40 text-white border-2 border-[#F9BA1D]/50 flex flex-col justify-between relative shadow-xl">
+                <div>
+                  <div className="flex items-center space-x-2 text-[#F9BA1D] mb-4">
+                    <Zap className="w-5 h-5 shrink-0" />
+                    <span className="text-xs font-mono uppercase tracking-wider font-semibold">
+                      Engineered ERP · The Solution
                     </span>
                   </div>
-                  <p className="text-sm text-neutral-200 mb-6">
+                  <h4 className="text-base font-bold text-white mb-2 font-display">
+                    Tailored Central Architecture
+                  </h4>
+                  <p className="text-xs sm:text-sm text-neutral-200 mb-6 leading-relaxed font-subheading">
                     {PRABHU_CASE_STUDY.solution}
                   </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-2.5">
                     {PRABHU_CASE_STUDY.afterPoints.map((pt, i) => (
-                      <div key={i} className="flex items-center p-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 text-xs text-white">
-                        <CheckCircle2 className="w-4 h-4 text-blue-400 mr-3 shrink-0" />
-                        <span className="font-medium">{pt}</span>
+                      <div key={i} className="flex items-start p-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 text-xs text-white">
+                        <CheckCircle2 className="w-4 h-4 text-[#F9BA1D] mr-3 mt-0.5 shrink-0" />
+                        <span className="font-medium leading-snug">{pt}</span>
                       </div>
                     ))}
                   </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                </div>
+
+                <div className="mt-6 pt-4 border-t border-white/10 text-[11px] font-mono text-[#F9BA1D] font-semibold">
+                  STATUS: Real-time accuracy, streamlined sync & scalability.
+                </div>
+              </div>
+
+            </div>
           </div>
 
           {/* Interactive ERP System Architecture Modules */}
@@ -183,9 +200,9 @@ export const PrabhuGroupCaseStudy: React.FC<CaseStudyProps> = ({ onOpenInquiry }
               {PRABHU_CASE_STUDY.modules.map((mod, i) => (
                 <div
                   key={i}
-                  className="p-4 rounded-xl bg-neutral-50 border border-neutral-200/90 hover:border-blue-300 hover:bg-blue-50/30 transition-all"
+                  className="p-4 rounded-xl bg-neutral-50 border border-neutral-200/90 hover:border-amber-300 hover:bg-amber-50/30 transition-all"
                 >
-                  <div className="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs mb-2">
+                  <div className="w-7 h-7 rounded-lg bg-amber-100 text-[#B45309] flex items-center justify-center font-bold text-xs mb-2">
                     0{i + 1}
                   </div>
                   <h5 className="text-xs font-bold text-neutral-900 font-display mb-1">{mod.name}</h5>
@@ -200,7 +217,7 @@ export const PrabhuGroupCaseStudy: React.FC<CaseStudyProps> = ({ onOpenInquiry }
         {/* Case Study Contextual Conversion CTA */}
         <div className="p-8 rounded-2xl bg-neutral-900 text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
           <div>
-            <div className="inline-flex items-center space-x-2 text-blue-400 text-xs font-mono mb-1">
+            <div className="inline-flex items-center space-x-2 text-[#F9BA1D] text-xs font-mono mb-1">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Tailored For Your Operations</span>
             </div>
@@ -214,7 +231,7 @@ export const PrabhuGroupCaseStudy: React.FC<CaseStudyProps> = ({ onOpenInquiry }
 
           <button
             onClick={() => onOpenInquiry('Custom Software & ERP')}
-            className="w-full sm:w-auto px-6 py-3.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold tracking-wider flex items-center justify-center space-x-2 transition-all shadow-md shrink-0"
+            className="w-full sm:w-auto px-6 py-3.5 bg-[#F9BA1D] hover:bg-[#eab308] text-neutral-900 rounded-xl text-xs font-bold tracking-wider flex items-center justify-center space-x-2 transition-all shadow-md shrink-0"
           >
             <span>LET'S BUILD YOUR SOLUTION</span>
             <ArrowRight className="w-4 h-4" />

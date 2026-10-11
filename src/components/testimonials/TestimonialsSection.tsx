@@ -28,10 +28,6 @@ export const TestimonialsSection: React.FC = () => {
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 border-b border-neutral-200 pb-8">
           <div>
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold mb-4">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Client Voices & Feedback</span>
-            </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-neutral-900 tracking-tight leading-tight font-display">
               TRUSTED BY LEADERS
             </h2>
@@ -83,7 +79,7 @@ export const TestimonialsSection: React.FC = () => {
                         ))}
                       </div>
                       {item.metric && (
-                        <span className="text-[10px] font-mono px-2.5 py-1 rounded-full bg-neutral-100 text-neutral-600 border border-neutral-200">
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-neutral-100 text-neutral-800 border border-neutral-200 font-semibold tracking-wide">
                           {item.metric}
                         </span>
                       )}

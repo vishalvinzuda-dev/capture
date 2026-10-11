@@ -25,7 +25,7 @@ Routing is handled via lightweight URL / hash detection in `src/App.tsx`:
 | Route | Hash Fallback | Component | Description |
 | :--- | :--- | :--- | :--- |
 | `/` | `#/` | `src/App.tsx` (Main View) | Single-page Capture Creatives agency experience (Hero, Services, Case Study, Work, Estimator, Contact). |
-| `/meely` | `#/meely` | `src/meely/MeelyPage.tsx` | Dedicated client showcase with 3D mouse parallax and 48-frame interactive camera scrub canvas. |
+| `/meely` | `#/meely` | `src/meely/MeelyPage.tsx` | Dedicated client showcase with 3D mouse parallax and 99-frame interactive 3-phase camera scrub canvas (Exterior -> Lobby 3D -> Executive Suites). |
 | `/demo` | `#/demo` | `src/demo/index.tsx` | UI Lab Experiments: Agentic Factory 3D, Timelines, Hairline Riffle, Radial Orbit, Scroll Expansion. |
 
 ---
@@ -59,7 +59,7 @@ Use this table to jump directly to the relevant file for any incoming user task:
 | Section / Feature | Primary Component File | Supporting Files / Assets |
 | :--- | :--- | :--- |
 | **Page Layout & Section Sequence** | `src/App.tsx` | Modal state (`inquiryModalOpen`), route listeners |
-| **Intro Splash Screen** | `src/components/common/SplashScreen.tsx` | Animated logo, loading progression |
+| **Intro Splash Screen** | `src/components/common/SplashScreen.tsx` | Pure vector motion graphics sequence animating `src/components/common/logoPaths.ts` (`C_EMBLEM_PATHS` ➔ `CAPTURE_PATHS` + `CREATIVES_PATHS` + `TAGLINE_PATHS`), laser horizon sweep, and specular sheen |
 | **Navbar & Header** | `src/components/common/Navbar.tsx` | Sticky blur, active section spy, mobile drawer |
 | **Hero Section** | `src/components/hero/HeroSection.tsx` | Slogans, CTA buttons, background grid pattern |
 | **Hero 3D Wireframe Cage & Core** | `src/components/hero/Hero3DCanvas.tsx` | Three.js Icosahedron + Octahedron WebGL canvas |
@@ -85,12 +85,16 @@ Use this table to jump directly to the relevant file for any incoming user task:
 
 | Sub-system | Target File / Path | Notes |
 | :--- | :--- | :--- |
-| **Meely Full Page Experience** | `src/meely/MeelyPage.tsx` | Integrated GSAP ScrollTrigger + 3D mouse parallax + Canvas renderer |
-| **Hero Mouse Parallax Layers** | `src/meely/MeelyPage.tsx` (lines 117–170) | `bg.png` (streetscape) + `fg.png` (building render with 3D tilt) |
-| **99-Frame Canvas Scrub Engine** | `src/meely/MeelyPage.tsx` | Preloads 99 WebP frames (Phase 1: 0..47 & Phase 2: 48..98), High-DPI object-cover render |
-| **Unified Section Stack Pin** | `src/meely/MeelyPage.tsx` | Single continuous master pin (`+=720%`) stacking Phase 1 -> Lobby Parallax -> Phase 2 with zero scroll breaks |
-| **Persistent Stage HUD Navigator** | `src/meely/MeelyPage.tsx` | 3-step active progress indicator across all 3 stacked phases |
-| **Frame Image Sequence Assets** | `public/meely-frames/` | `frame-000.webp` through `frame-098.webp` (99 frames) |
+| **Meely Full Page Experience** | `src/meely/MeelyPage.tsx` | Integrated Lenis smooth scroll + GSAP ScrollTrigger master pin + 3D mouse parallax + dual canvas scrub engine |
+| **Preloader & Frame Decoding** | `src/meely/MeelyPage.tsx` | Decodes 99 WebP frames with real-time percentage progress bar before revealing viewport |
+| **Hero Mouse Parallax Layers** | `src/meely/MeelyPage.tsx` | `bg.png` (streetscape background) + `fg.png` (building render foreground with 3D tilt & mouse depth) |
+| **Unified Section Stack Pin** | `src/meely/MeelyPage.tsx` | Single continuous master pin (`+=720%`) stacking Phase 1 (Exterior) -> Phase 2 (Lobby Parallax) -> Phase 3 (Suites) |
+| **Phase 1: Exterior Approach** | `src/meely/MeelyPage.tsx` | Frames 000..047 canvas scrub with live telemetry, elevation data, and dynamic camera overlay |
+| **Phase 2: Grand Lobby (3D Parallax)** | `src/meely/MeelyPage.tsx` | `lobby-bg.png` + `desk-fg.png` with mouse tilt, Calacatta marble counter specs & suspended halo luminaire details |
+| **Phase 3: Executive Suites Walkthrough** | `src/meely/MeelyPage.tsx` | Frames 048..098 canvas scrub with acoustic timber corridor specs & boardroom details |
+| **Floating Interactive HUD Dock** | `src/meely/MeelyPage.tsx` | Spring-animated stage jump buttons (`01 Exterior`, `02 Lobby 3D`, `03 Suites`), live frame badge, and Auto-Tour controls |
+| **Outro & Architectural Precision** | `src/meely/MeelyPage.tsx` | 3 detail feature cards, Return to Agency button, and smooth scroll "Back to Top" trigger |
+| **Frame Image Sequence Assets** | `public/meely-frames/` | 99 total frames (`frame-000.webp` through `frame-098.webp`) |
 | **Source Assets & Renders** | `src/meely/` | `bg.png`, `fg.png`, `lobby-bg.png`, `desk-fg.png` |
 
 ---
@@ -139,9 +143,12 @@ Use this table to jump directly to the relevant file for any incoming user task:
 ```
 f:\WebSites\04\
 ├── public\
-│   ├── meely-frames\       # 48 WebP frames (frame-000.webp to frame-047.webp)
+│   ├── meely-frames\       # 99 WebP frames (frame-000.webp to frame-098.webp)
 │   ├── _redirects          # SPA routing redirect rule for Netlify
-│   ├── favicon.svg         # SVG favicon
+│   ├── capture-favicon.svg # Official SVG favicon
+│   ├── Capure.svg          # Standalone C emblem asset
+│   ├── capure-logo.svg     # Clean master vector brand lockup with native compound cutouts
+│   ├── fulllogo.svg        # Full brand lockup legacy asset
 │   └── icons.svg
 ├── src\
 │   ├── assets\             # Syne fonts, hero assets, SVG icons
@@ -149,7 +156,7 @@ f:\WebSites\04\
 │   │   ├── achievements\   # AchievementsSection.tsx
 │   │   ├── calculator\     # ProjectEstimator.tsx (interactive scope & cost calculator)
 │   │   ├── casestudy\      # PrabhuGroupCaseStudy.tsx (ERP case study)
-│   │   ├── common\         # Navbar.tsx, Footer.tsx, SplashScreen.tsx, ProjectInquiryModal.tsx
+│   │   ├── common\         # Navbar.tsx, Footer.tsx, SplashScreen.tsx, ProjectInquiryModal.tsx, ErrorBoundary.tsx
 │   │   ├── contact\        # ContactSection.tsx
 │   │   ├── cta\            # DramaticCTA.tsx
 │   │   ├── difference\     # SignatureDifference.tsx (8-step pipeline)
@@ -169,12 +176,12 @@ f:\WebSites\04\
 │   ├── lib\
 │   │   └── utils.ts        # cn() className merger
 │   ├── meely\
-│   │   └── MeelyPage.tsx   # /meely 3D parallax & 48-frame canvas scrub showcase
+│   │   └── MeelyPage.tsx   # /meely 3D parallax & 99-frame 3-phase canvas scrub showcase
 │   ├── types\
 │   │   └── index.ts        # TypeScript data interfaces
 │   ├── App.tsx             # Root router & main single-page layout
 │   ├── index.css           # Tailwind v4 entry, font imports, glass tokens
-│   ├── main.tsx            # React 19 root render
+│   ├── main.tsx            # React 19 root render with ErrorBoundary
 │   └── vite-env.d.ts
 ├── index.html              # HTML5 entry with SEO tags & Google Font links
 ├── netlify.toml            # Netlify build & redirect configuration

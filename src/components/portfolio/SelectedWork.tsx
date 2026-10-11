@@ -52,43 +52,32 @@ export const SelectedWork: React.FC<PortfolioSectionProps> = ({
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 border-b border-neutral-200 pb-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 border-b border-neutral-200 pb-8 gap-6">
           <div>
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-neutral-100 border border-neutral-200 text-neutral-700 text-xs font-semibold mb-4">
-              <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-              <span>Engineered & Delivered</span>
-            </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-neutral-900 tracking-tight leading-tight font-display">
               SELECTED WORK
             </h2>
-            <p className="mt-2 text-sm text-neutral-600 max-w-xl leading-relaxed">
+            <p className="mt-2 text-sm text-neutral-600 max-w-xl leading-relaxed font-subheading">
               Tactile brand artifacts, high-conversion digital web architectures, and mission-critical ERP platforms built for commercial impact.
             </p>
           </div>
 
-          {/* Category Filter Pills */}
-          <div className="mt-6 md:mt-0 flex flex-wrap gap-2">
-            {CATEGORIES.map((cat) => {
-              const isSelected = selectedCategory === cat;
-              return (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
-                    isSelected
-                      ? 'bg-neutral-900 text-white shadow-xs'
-                      : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200/70'
-                  }`}
-                >
-                  {cat}
-                </button>
-              );
-            })}
-          </div>
+          <a
+            href="#/projects"
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.hash = '#/projects';
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="self-start md:self-end px-5 py-3 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-xs font-semibold tracking-wider flex items-center space-x-2 shadow-xs transition-all shrink-0"
+          >
+            <span>VIEW ALL PROJECTS BY CATEGORY</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </a>
         </div>
 
         {/* Hairline Riffle Interactive Tray Showcase (0.30 Intensity) */}
-        <div className="mb-16">
+        <div className="mb-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             {/* Left Side: Riffle Tray */}
             <div>
@@ -168,7 +157,7 @@ export const SelectedWork: React.FC<PortfolioSectionProps> = ({
                     </div>
                   </div>
                   <div className="p-6">
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-blue-600 font-semibold">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-[#D97706] font-semibold">
                       {previewProject.category}
                     </span>
                     <h3 className="text-xl font-bold text-neutral-900 font-display mt-1">
@@ -182,92 +171,6 @@ export const SelectedWork: React.FC<PortfolioSectionProps> = ({
               )}
             </div>
           </div>
-        </div>
-
-        {/* Portfolio Cards Grid */}
-        <motion.div
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          <AnimatePresence>
-            {filteredProjects.map((project, idx) => (
-              <motion.div
-                layout
-                initial={{ opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.96 }}
-                transition={{ duration: 0.4, delay: idx * 0.05 }}
-                key={project.id}
-                onClick={() => setActiveProject(project)}
-                className="group cursor-pointer rounded-2xl bg-neutral-50 border border-neutral-200/80 overflow-hidden hover:shadow-xl hover:border-neutral-400 transition-all duration-300 flex flex-col"
-              >
-                {/* Image Container with Zoom */}
-                <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-100">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                    <span className="text-xs font-semibold text-white flex items-center space-x-1.5">
-                      <span>View Project Brief</span>
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </span>
-                  </div>
-                  <div className="absolute top-3 right-3 px-2.5 py-1 rounded-md bg-white/90 backdrop-blur-md text-[10px] font-mono text-neutral-900 border border-neutral-200 shadow-2xs">
-                    {project.year}
-                  </div>
-                </div>
-
-                {/* Card Content */}
-                <div className="p-6 flex-1 flex flex-col justify-between">
-                  <div>
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-blue-600 font-semibold">
-                      {project.category}
-                    </span>
-                    <h3 className="text-lg font-bold text-neutral-900 font-display mt-1 group-hover:text-blue-600 transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="text-xs text-neutral-600 mt-2 line-clamp-2 leading-relaxed">
-                      {project.tagline}
-                    </p>
-                  </div>
-
-                  {/* Tags */}
-                  <div className="pt-4 mt-4 border-t border-neutral-200/60 flex flex-wrap gap-1.5">
-                    {project.tags.slice(0, 3).map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2 py-0.5 rounded bg-white border border-neutral-200 text-[10px] text-neutral-600 font-medium"
-                      >
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* Section Contextual CTA */}
-        <div className="mt-16 p-8 rounded-2xl bg-neutral-50 border border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>
-            <h4 className="text-base font-bold text-neutral-900 font-display">
-              Want something similar built for your company?
-            </h4>
-            <p className="text-xs text-neutral-500 mt-0.5">
-              Every project is custom architected around your brand voice and commercial targets.
-            </p>
-          </div>
-          <button
-            onClick={() => onOpenInquiry()}
-            className="w-full sm:w-auto px-5 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-xs font-semibold flex items-center justify-center space-x-2 transition-all shadow-xs"
-          >
-            <span>START A SIMILAR PROJECT</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
         </div>
 
       </div>
@@ -311,7 +214,7 @@ export const SelectedWork: React.FC<PortfolioSectionProps> = ({
               {/* Modal Body */}
               <div className="p-6 sm:p-8 overflow-y-auto space-y-5">
                 <div>
-                  <span className="text-[10px] font-mono uppercase tracking-wider text-blue-600 font-bold">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-[#D97706] font-bold">
                     {activeProject.category}
                   </span>
                   <h3 className="text-2xl font-bold text-neutral-900 font-display mt-1">
@@ -333,7 +236,7 @@ export const SelectedWork: React.FC<PortfolioSectionProps> = ({
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {activeProject.deliverables.map((d) => (
                       <div key={d} className="flex items-center p-2.5 rounded-lg bg-neutral-50 border border-neutral-200 text-xs font-medium text-neutral-800">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 mr-2 shrink-0" />
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[#D97706] mr-2 shrink-0" />
                         <span>{d}</span>
                       </div>
                     ))}

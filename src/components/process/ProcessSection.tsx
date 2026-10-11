@@ -14,16 +14,11 @@ export const ProcessSection: React.FC = () => {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-neutral-100 border border-neutral-200 text-neutral-700 text-xs font-semibold mb-4">
-            <Rocket className="w-3.5 h-3.5 text-blue-600" />
-            <span>Methodology & Precision</span>
-          </div>
-
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-neutral-900 tracking-tight leading-tight font-display">
             HOW WE WORK
           </h2>
 
-          <p className="mt-4 text-sm text-neutral-600 max-w-xl mx-auto leading-relaxed">
+          <p className="mt-4 text-sm text-neutral-600 max-w-xl mx-auto leading-relaxed font-subheading">
             A disciplined, transparent 5-stage execution framework that eliminates ambiguity, enforces strict milestones, and guarantees output excellence.
           </p>
         </div>
@@ -43,7 +38,7 @@ export const ProcessSection: React.FC = () => {
                 onClick={() => setActiveStep(idx)}
                 className={`cursor-pointer p-6 rounded-2xl border transition-all duration-300 flex flex-col justify-between ${
                   isSelected
-                    ? 'bg-white border-blue-600 shadow-lg scale-102 ring-2 ring-blue-600/10'
+                    ? 'bg-white border-[#F9BA1D] shadow-lg scale-102 ring-2 ring-[#F9BA1D]/20'
                     : 'bg-white/80 border-neutral-200 hover:border-neutral-300 hover:bg-white shadow-2xs'
                 }`}
               >
@@ -53,7 +48,7 @@ export const ProcessSection: React.FC = () => {
                       STEP {step.step}
                     </span>
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                      isSelected ? 'bg-blue-600 text-white' : 'bg-neutral-100 text-neutral-700'
+                      isSelected ? 'bg-[#F9BA1D] text-neutral-900 font-bold' : 'bg-neutral-100 text-neutral-700'
                     }`}>
                       <Icon className="w-4 h-4" />
                     </div>
@@ -68,9 +63,9 @@ export const ProcessSection: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-neutral-100 text-[10px] font-mono text-blue-600 font-semibold flex items-center justify-between">
+                <div className="mt-4 pt-3 border-t border-neutral-100 text-[10px] font-mono text-[#D97706] font-semibold flex items-center justify-between">
                   <span>{isSelected ? 'Active Focus' : 'Click to inspect'}</span>
-                  {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-blue-600" />}
+                  {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-[#F9BA1D]" />}
                 </div>
               </motion.div>
             );
@@ -88,7 +83,7 @@ export const ProcessSection: React.FC = () => {
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
             <div className="space-y-3 max-w-2xl">
               <div className="flex items-center space-x-2">
-                <span className="px-2.5 py-1 rounded bg-blue-50 text-blue-700 font-mono text-xs font-bold border border-blue-200">
+                <span className="px-2.5 py-1 rounded bg-amber-50 text-[#B45309] font-mono text-xs font-bold border border-amber-200">
                   PHASE {PROCESS_STEPS[activeStep].step}
                 </span>
                 <span className="text-xs text-neutral-400 font-mono">Stage Execution Details</span>
@@ -109,7 +104,7 @@ export const ProcessSection: React.FC = () => {
               <div className="space-y-1.5">
                 {PROCESS_STEPS[activeStep].details.map((d) => (
                   <div key={d} className="flex items-center text-xs text-neutral-700 font-medium">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 mr-2 shrink-0" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#D97706] mr-2 shrink-0" />
                     <span>{d}</span>
                   </div>
                 ))}

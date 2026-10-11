@@ -74,16 +74,11 @@ export const ContactSection: React.FC = () => {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold mb-4">
-            <Mail className="w-3.5 h-3.5" />
-            <span>Direct Inquiries</span>
-          </div>
-
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-neutral-900 tracking-tight leading-tight font-display">
             START THE CONVERSATION
           </h2>
 
-          <p className="mt-4 text-sm text-neutral-600 max-w-lg mx-auto leading-relaxed">
+          <p className="mt-4 text-sm text-neutral-600 max-w-lg mx-auto leading-relaxed font-subheading">
             Tell us about your objectives, timeline, or business problem. We respond promptly with actionable insights.
           </p>
         </div>
@@ -107,9 +102,9 @@ export const ContactSection: React.FC = () => {
               <div className="space-y-4 pt-2 border-t border-neutral-100">
                 <a
                   href={`mailto:${COMPANY_INFO.email}`}
-                  className="flex items-start space-x-3.5 text-xs text-neutral-700 hover:text-blue-600 transition-colors group"
+                  className="flex items-start space-x-3.5 text-xs text-neutral-700 hover:text-[#D97706] transition-colors group"
                 >
-                  <div className="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center text-neutral-700 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors shrink-0">
+                  <div className="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center text-neutral-700 group-hover:bg-amber-50 group-hover:text-[#D97706] transition-colors shrink-0">
                     <Mail className="w-4 h-4" />
                   </div>
                   <div>
@@ -120,9 +115,9 @@ export const ContactSection: React.FC = () => {
 
                 <a
                   href={`tel:${COMPANY_INFO.phone}`}
-                  className="flex items-start space-x-3.5 text-xs text-neutral-700 hover:text-blue-600 transition-colors group"
+                  className="flex items-start space-x-3.5 text-xs text-neutral-700 hover:text-[#D97706] transition-colors group"
                 >
-                  <div className="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center text-neutral-700 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors shrink-0">
+                  <div className="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center text-neutral-700 group-hover:bg-amber-50 group-hover:text-[#D97706] transition-colors shrink-0">
                     <Phone className="w-4 h-4" />
                   </div>
                   <div>
@@ -148,7 +143,7 @@ export const ContactSection: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleWhatsApp}
-                  className="w-full py-3 px-4 bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#128C7E] border border-[#25D366]/30 rounded-xl text-xs font-bold tracking-wider flex items-center justify-center space-x-2 transition-colors"
+                  className="w-full py-3 px-4 bg-transparent hover:bg-neutral-900 text-neutral-900 hover:text-white border-2 border-neutral-900 rounded-xl text-xs font-bold tracking-wider flex items-center justify-center space-x-2 transition-all duration-200"
                 >
                   <MessageSquare className="w-4 h-4" />
                   <span>START INSTANT WHATSAPP CHAT</span>
@@ -182,7 +177,7 @@ export const ContactSection: React.FC = () => {
                         placeholder="e.g. Rahul Sharma"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full px-4 py-3 bg-[#FAFAF9] border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 transition-all"
+                        className="w-full px-4 py-3 bg-[#FAFAF9] border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-[#F9BA1D]/40 focus:border-[#F9BA1D] transition-all"
                       />
                     </div>
 
@@ -195,7 +190,7 @@ export const ContactSection: React.FC = () => {
                         placeholder="e.g. Prabhu Group"
                         value={formData.company}
                         onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                        className="w-full px-4 py-3 bg-[#FAFAF9] border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 transition-all"
+                        className="w-full px-4 py-3 bg-[#FAFAF9] border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-[#F9BA1D]/40 focus:border-[#F9BA1D] transition-all"
                       />
                     </div>
                   </div>
@@ -211,7 +206,7 @@ export const ContactSection: React.FC = () => {
                         placeholder="name@company.com"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full px-4 py-3 bg-[#FAFAF9] border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 transition-all"
+                        className="w-full px-4 py-3 bg-[#FAFAF9] border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-[#F9BA1D]/40 focus:border-[#F9BA1D] transition-all"
                       />
                     </div>
 
@@ -225,7 +220,7 @@ export const ContactSection: React.FC = () => {
                         placeholder="+91 98765 43210"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="w-full px-4 py-3 bg-[#FAFAF9] border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 transition-all"
+                        className="w-full px-4 py-3 bg-[#FAFAF9] border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-[#F9BA1D]/40 focus:border-[#F9BA1D] transition-all"
                       />
                     </div>
                   </div>
@@ -238,7 +233,7 @@ export const ContactSection: React.FC = () => {
                       <select
                         value={formData.service}
                         onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                        className="w-full px-4 py-3 bg-[#FAFAF9] border border-neutral-200 rounded-xl text-xs font-medium text-neutral-800 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600"
+                        className="w-full px-4 py-3 bg-[#FAFAF9] border border-neutral-200 rounded-xl text-xs font-medium text-neutral-800 focus:outline-none focus:ring-2 focus:ring-[#F9BA1D]/40 focus:border-[#F9BA1D]"
                       >
                         {SERVICE_OPTIONS.map((opt) => (
                           <option key={opt} value={opt}>
@@ -255,7 +250,7 @@ export const ContactSection: React.FC = () => {
                       <select
                         value={formData.budget}
                         onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                        className="w-full px-4 py-3 bg-[#FAFAF9] border border-neutral-200 rounded-xl text-xs font-medium text-neutral-800 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600"
+                        className="w-full px-4 py-3 bg-[#FAFAF9] border border-neutral-200 rounded-xl text-xs font-medium text-neutral-800 focus:outline-none focus:ring-2 focus:ring-[#F9BA1D]/40 focus:border-[#F9BA1D]"
                       >
                         {BUDGET_RANGES.map((opt) => (
                           <option key={opt} value={opt}>
@@ -275,7 +270,7 @@ export const ContactSection: React.FC = () => {
                       placeholder="Outline your requirements, current pain points, deliverables or expected timeline..."
                       value={formData.details}
                       onChange={(e) => setFormData({ ...formData, details: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#FAFAF9] border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 resize-none transition-all"
+                      className="w-full px-4 py-3 bg-[#FAFAF9] border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-[#F9BA1D]/40 focus:border-[#F9BA1D] resize-none transition-all"
                     />
                   </div>
 
@@ -296,7 +291,7 @@ export const ContactSection: React.FC = () => {
                 </form>
               ) : (
                 <div className="py-12 text-center space-y-4">
-                  <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto border border-blue-200">
+                  <div className="w-16 h-16 bg-amber-50 text-[#D97706] rounded-2xl flex items-center justify-center mx-auto border border-amber-200">
                     <CheckCircle className="w-8 h-8" />
                   </div>
                   <h3 className="text-2xl font-bold text-neutral-900 font-display">

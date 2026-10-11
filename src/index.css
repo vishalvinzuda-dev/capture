@@ -12,12 +12,16 @@
 @theme {
   --font-sans: 'Syne', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-display: 'Syne', 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-quicksand: 'Quicksand', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-dm-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
 }
 
 @layer base {
   :root {
     --font-sans: 'Syne', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     --font-display: 'Syne', 'Space Grotesk', system-ui, -apple-system, sans-serif;
+    --font-quicksand: 'Quicksand', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-dm-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
   }
 
   body {
@@ -30,6 +34,12 @@
     font-family: 'Syne', 'Space Grotesk', sans-serif;
     letter-spacing: -0.03em;
   }
+}
+
+.font-subheading, .subheading {
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif !important;
+  font-weight: 400 !important;
+  letter-spacing: normal !important;
 }
 
 /* Custom stroke outline typography matching modern studio design */
@@ -108,7 +118,7 @@
 }
 
 .text-gradient-accent {
-  background: linear-gradient(135deg, #18181B 0%, #2563EB 50%, #4F46E5 100%);
+  background: linear-gradient(135deg, #18181B 0%, #D97706 45%, #F9BA1D 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

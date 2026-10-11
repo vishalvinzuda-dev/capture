@@ -233,7 +233,7 @@ export default function DemoPage() {
                 : "text-neutral-500 hover:text-neutral-900"
             }`}
           >
-            <Clock className="w-3 h-3 text-blue-600" />
+            <Clock className="w-3 h-3 text-[#D97706]" />
             <span>timeline.tsx</span>
           </button>
           <button
@@ -302,7 +302,7 @@ export default function DemoPage() {
           <div className="max-w-6xl mx-auto px-6 mb-6">
             <div className="p-4 rounded-2xl bg-white border border-neutral-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
+                <div className="w-8 h-8 rounded-lg bg-amber-50 text-[#D97706] flex items-center justify-center font-bold">
                   <FileCode className="w-4 h-4" />
                 </div>
                 <div>
@@ -326,8 +326,8 @@ export default function DemoPage() {
           </div>
 
           <div className="flex min-h-[75vh] flex-col items-center justify-center gap-4 px-6 text-center">
-            <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold mb-1">
-              <Sparkles className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-[#B45309] text-xs font-semibold mb-1">
+              <Sparkles className="w-3.5 h-3.5 text-[#D97706]" />
               <span>Section 1: timeline.tsx</span>
             </div>
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-neutral-500">
@@ -359,7 +359,7 @@ export default function DemoPage() {
 
           <div className="flex py-16 flex-col items-center justify-center gap-2 px-6 text-center text-sm text-neutral-500 bg-white">
             <p className="text-sm font-semibold text-neutral-800 font-display">
-              End of Section: <span className="font-mono text-blue-600">timeline.tsx</span>
+              End of Section: <span className="font-mono text-[#D97706]">timeline.tsx</span>
             </p>
           </div>
         </section>

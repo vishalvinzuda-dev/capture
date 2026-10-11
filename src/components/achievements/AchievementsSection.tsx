@@ -10,11 +10,6 @@ export const AchievementsSection: React.FC = () => {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-semibold mb-4">
-            <Trophy className="w-3.5 h-3.5 text-amber-600" />
-            <span>Discipline, Leadership & Athletic Excellence</span>
-          </div>
-
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-neutral-900 tracking-tight leading-tight font-display">
             TRACK RECORD & ACHIEVEMENTS
           </h2>
@@ -41,7 +36,7 @@ export const AchievementsSection: React.FC = () => {
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-[10px] font-mono uppercase tracking-wider px-2.5 py-1 rounded-full bg-white border border-neutral-200 text-blue-700 font-bold">
+                    <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-md bg-neutral-100 border border-neutral-200 text-neutral-800 font-semibold">
                       {item.category}
                     </span>
                     <span className="text-xs font-mono text-neutral-400 font-semibold">

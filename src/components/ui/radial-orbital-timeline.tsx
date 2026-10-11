@@ -88,22 +88,43 @@ export default function RadialOrbitalTimeline({
     });
   };
 
-  useEffect(() => {
-    let rotationTimer: ReturnType<typeof setInterval>;
+  const rotationAngleRef = useRef<number>(0);
+  const targetRotationAngleRef = useRef<number | null>(null);
 
-    if (autoRotate && viewMode === "orbital") {
-      rotationTimer = setInterval(() => {
-        setRotationAngle((prev) => {
-          const newAngle = (prev + 0.3) % 360;
-          return Number(newAngle.toFixed(3));
-        });
-      }, 50);
-    }
+  useEffect(() => {
+    let animId: number;
+    let lastTime = performance.now();
+
+    const animateLoop = (time: number) => {
+      const delta = Math.min((time - lastTime) / 1000, 0.1);
+      lastTime = time;
+
+      if (targetRotationAngleRef.current !== null) {
+        // Smoothly interpolate towards target angle with soft exponential easing
+        const current = rotationAngleRef.current;
+        const target = targetRotationAngleRef.current;
+        const diff = target - current;
+
+        if (Math.abs(diff) < 0.1) {
+          rotationAngleRef.current = target;
+          targetRotationAngleRef.current = null;
+        } else {
+          rotationAngleRef.current = current + diff * (1 - Math.exp(-6 * delta));
+        }
+        setRotationAngle(rotationAngleRef.current);
+      } else if (autoRotate && viewMode === "orbital") {
+        // Smooth continuous 60fps/120fps passive revolution
+        rotationAngleRef.current = (rotationAngleRef.current + 4.5 * delta) % 360;
+        setRotationAngle(rotationAngleRef.current);
+      }
+
+      animId = requestAnimationFrame(animateLoop);
+    };
+
+    animId = requestAnimationFrame(animateLoop);
 
     return () => {
-      if (rotationTimer) {
-        clearInterval(rotationTimer);
-      }
+      cancelAnimationFrame(animId);
     };
   }, [autoRotate, viewMode]);
 
@@ -113,8 +134,15 @@ export default function RadialOrbitalTimeline({
     const nodeIndex = timelineData.findIndex((item) => item.id === nodeId);
     const totalNodes = timelineData.length;
     const targetAngle = (nodeIndex / totalNodes) * 360;
+    let target = 270 - targetAngle;
 
-    setRotationAngle(270 - targetAngle);
+    // Pick closest circular direction to avoid spinning 360 degrees backwards
+    const current = rotationAngleRef.current;
+    let diff = (target - current) % 360;
+    if (diff > 180) diff -= 360;
+    if (diff < -180) diff += 360;
+
+    targetRotationAngleRef.current = current + diff;
   };
 
   const calculateNodePosition = (index: number, total: number) => {
@@ -151,7 +179,7 @@ export default function RadialOrbitalTimeline({
         case "completed":
           return "text-emerald-700 bg-emerald-50 border-emerald-200 font-semibold";
         case "in-progress":
-          return "text-blue-700 bg-blue-50 border-blue-200 font-semibold";
+          return "text-[#B45309] bg-amber-50 border-amber-200 font-semibold";
         case "pending":
           return "text-neutral-600 bg-neutral-100 border-neutral-200";
         default:
@@ -176,7 +204,7 @@ export default function RadialOrbitalTimeline({
       className={`w-full h-[650px] sm:h-[750px] flex flex-col items-center justify-center overflow-hidden relative select-none rounded-3xl ${
         isLight
           ? "bg-gradient-to-b from-neutral-50/50 via-white to-neutral-50/80 border border-neutral-200/90 text-neutral-900 shadow-sm"
-          : "bg-black border border-purple-900 text-white"
+          : "bg-black border border-amber-900/40 text-white"
       } ${className}`}
       ref={containerRef}
       onClick={handleContainerClick}
@@ -194,18 +222,18 @@ export default function RadialOrbitalTimeline({
           <div
             className={`absolute w-16 h-16 rounded-full animate-pulse flex items-center justify-center z-10 shadow-xl ${
               isLight
-                ? "bg-gradient-to-br from-blue-600 via-indigo-600 to-cyan-500 shadow-blue-500/25"
-                : "bg-gradient-to-br from-purple-500 via-blue-500 to-teal-500 shadow-purple-500/30"
+                ? "bg-gradient-to-br from-[#F9BA1D] via-[#D97706] to-[#B45309] shadow-amber-500/30"
+                : "bg-gradient-to-br from-[#FDE047] via-[#F9BA1D] to-[#D97706] shadow-amber-500/40"
             }`}
           >
             <div
               className={`absolute w-20 h-20 rounded-full border animate-ping opacity-60 ${
-                isLight ? "border-blue-400/40" : "border-white/20"
+                isLight ? "border-amber-400/50" : "border-white/20"
               }`}
             ></div>
             <div
               className={`absolute w-24 h-24 rounded-full border animate-ping opacity-40 ${
-                isLight ? "border-indigo-400/30" : "border-white/10"
+                isLight ? "border-amber-300/40" : "border-white/10"
               }`}
               style={{ animationDelay: "0.5s" }}
             ></div>
@@ -242,7 +270,7 @@ export default function RadialOrbitalTimeline({
                 ref={(el) => {
                   nodeRefs.current[item.id] = el;
                 }}
-                className="absolute transition-all duration-700 cursor-pointer"
+                className="absolute transition-opacity duration-300 cursor-pointer will-change-transform"
                 style={nodeStyle}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -256,7 +284,7 @@ export default function RadialOrbitalTimeline({
                   }`}
                   style={{
                     background: isLight
-                      ? `radial-gradient(circle, rgba(37,99,235,0.2) 0%, rgba(37,99,235,0) 70%)`
+                      ? `radial-gradient(circle, rgba(249,186,29,0.35) 0%, rgba(217,119,6,0.12) 50%, rgba(249,186,29,0) 75%)`
                       : `radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%)`,
                     width: `${item.energy * 0.5 + 40}px`,
                     height: `${item.energy * 0.5 + 40}px`,
@@ -273,10 +301,12 @@ export default function RadialOrbitalTimeline({
                   ${
                     isLight
                       ? isExpanded
-                        ? "bg-blue-600 text-white border-2 border-blue-600 shadow-xl shadow-blue-500/30"
+                        ? "bg-[#F9BA1D] text-neutral-900 font-bold border-2 border-[#D97706] shadow-xl shadow-amber-500/40 ring-4 ring-[#F9BA1D]/25"
                         : isRelated
-                        ? "bg-blue-100 text-blue-700 border-2 border-blue-500 animate-pulse shadow-sm"
-                        : "bg-white text-neutral-800 border-2 border-neutral-300 shadow-md hover:border-blue-600 hover:text-blue-600"
+                        ? "bg-amber-100 text-[#B45309] border-2 border-amber-400 shadow-md shadow-amber-500/20 animate-pulse"
+                        : activeNodeId
+                        ? "bg-amber-50/80 text-[#B45309] border-2 border-amber-300/80 shadow-xs hover:bg-amber-100 hover:border-amber-400"
+                        : "bg-white text-neutral-800 border-2 border-neutral-300 shadow-md hover:border-[#F9BA1D] hover:text-[#D97706]"
                       : isExpanded
                       ? "bg-white text-black border-2 border-white shadow-lg shadow-white/30"
                       : isRelated
@@ -296,7 +326,11 @@ export default function RadialOrbitalTimeline({
                   ${
                     isLight
                       ? isExpanded
-                        ? "text-blue-700 font-bold scale-110 drop-shadow-xs"
+                        ? "text-[#B45309] font-bold scale-110 drop-shadow-xs"
+                        : isRelated
+                        ? "text-[#B45309] font-medium"
+                        : activeNodeId
+                        ? "text-amber-800/80 hover:text-amber-900"
                         : "text-neutral-700 hover:text-neutral-900"
                       : isExpanded
                       ? "text-white scale-125"
@@ -312,13 +346,13 @@ export default function RadialOrbitalTimeline({
                   <Card
                     className={`absolute top-20 left-1/2 -translate-x-1/2 w-72 backdrop-blur-xl shadow-2xl overflow-visible z-50 ${
                       isLight
-                        ? "bg-white/95 border-neutral-200/90 text-neutral-900 shadow-blue-500/10"
+                        ? "bg-white/95 border-neutral-200/90 text-neutral-900 shadow-amber-500/15"
                         : "bg-black/90 border-white/30 shadow-white/10 text-white"
                     }`}
                   >
                     <div
                       className={`absolute -top-3 left-1/2 -translate-x-1/2 w-px h-3 ${
-                        isLight ? "bg-blue-500" : "bg-white/50"
+                        isLight ? "bg-[#F9BA1D]" : "bg-white/50"
                       }`}
                     ></div>
                     <CardHeader className="pb-2">
@@ -372,14 +406,14 @@ export default function RadialOrbitalTimeline({
                             <Zap
                               size={10}
                               className={`mr-1 ${
-                                isLight ? "text-blue-600" : "text-amber-400"
+                                isLight ? "text-[#D97706]" : "text-amber-400"
                               }`}
                             />
                             Impact Alignment
                           </span>
                           <span
                             className={`font-mono font-bold ${
-                              isLight ? "text-blue-600" : "text-amber-400"
+                              isLight ? "text-[#D97706]" : "text-amber-400"
                             }`}
                           >
                             {item.energy}%
@@ -391,7 +425,7 @@ export default function RadialOrbitalTimeline({
                           }`}
                         >
                           <div
-                            className="h-full bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full"
+                            className="h-full bg-gradient-to-r from-[#F9BA1D] to-[#D97706] rounded-full"
                             style={{ width: `${item.energy}%` }}
                           ></div>
                         </div>
@@ -431,7 +465,7 @@ export default function RadialOrbitalTimeline({
                                   size="sm"
                                   className={`flex items-center h-6 px-2.5 py-0 text-xs rounded-lg transition-all ${
                                     isLight
-                                      ? "border-neutral-200 bg-neutral-50 hover:bg-neutral-100 text-neutral-800"
+                                      ? "border-amber-200 bg-amber-50/70 hover:bg-amber-100 text-[#B45309] hover:border-amber-300"
                                       : "border-white/20 bg-transparent hover:bg-white/10 text-white/80 hover:text-white"
                                   }`}
                                   onClick={(e) => {

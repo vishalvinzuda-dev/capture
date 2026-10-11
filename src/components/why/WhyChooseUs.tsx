@@ -97,17 +97,12 @@ export const WhyChooseUs: React.FC = () => {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-neutral-100 border border-neutral-200 text-neutral-700 text-xs font-semibold mb-4">
-            <Shield className="w-3.5 h-3.5 text-blue-600" />
-            <span>The Strategic Rationale</span>
-          </div>
-
           <h2 className="text-3xl sm:text-4xl lg:text-6xl font-extrabold text-neutral-900 tracking-tight leading-tight font-display">
             Less chasing.<br />
             <span className="text-neutral-400">More clarity.</span>
           </h2>
 
-          <p className="mt-4 text-sm text-neutral-600 max-w-xl mx-auto leading-relaxed">
+          <p className="mt-4 text-sm text-neutral-600 max-w-xl mx-auto leading-relaxed font-subheading">
             We are built from the ground up for founders, business owners, and corporate leaders who demand commercial precision, design excellence, and zero technical friction.
           </p>
         </div>
@@ -116,7 +111,7 @@ export const WhyChooseUs: React.FC = () => {
         <div className="mb-16">
           <div className="mb-4 flex items-center justify-between text-xs text-neutral-500 font-mono px-2">
             <div className="flex items-center space-x-2">
-              <Orbit className="w-3.5 h-3.5 text-blue-600 animate-spin" style={{ animationDuration: '14s' }} />
+              <Orbit className="w-3.5 h-3.5 text-[#D97706] animate-spin" style={{ animationDuration: '14s' }} />
               <span className="font-semibold text-neutral-700">Interactive 6-Pillar Radial Orbit</span>
             </div>
             <span className="hidden sm:inline-block text-neutral-400">
@@ -144,7 +139,7 @@ export const WhyChooseUs: React.FC = () => {
               className="p-8 rounded-2xl bg-[#FAFAF9] border border-neutral-200/80 hover:border-neutral-400 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group"
             >
               <div>
-                <span className="text-2xl font-black font-mono text-neutral-300 group-hover:text-blue-600 transition-colors">
+                <span className="text-2xl font-black font-mono text-neutral-300 group-hover:text-[#D97706] transition-colors">
                   {item.number}
                 </span>
 
