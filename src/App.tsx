@@ -17,11 +17,13 @@ import { DramaticCTA } from './components/cta/DramaticCTA';
 import { ContactSection } from './components/contact/ContactSection';
 import { Footer } from './components/common/Footer';
 import { ProjectInquiryModal } from './components/common/ProjectInquiryModal';
+import { MeelyPage } from './meely/MeelyPage';
 
 const TimelineDemo = React.lazy(() => import('./demo'));
 
 export const App: React.FC = () => {
   const [isDemoRoute, setIsDemoRoute] = useState(false);
+  const [isMeelyRoute, setIsMeelyRoute] = useState(false);
   const [splashFinished, setSplashFinished] = useState(false);
   const [inquiryModalOpen, setInquiryModalOpen] = useState(false);
   const [preselectedService, setPreselectedService] = useState<string | undefined>(undefined);
@@ -32,6 +34,8 @@ export const App: React.FC = () => {
       const hash = window.location.hash;
       const isDemo = path === '/demo' || path.startsWith('/demo/') || hash === '#/demo' || hash === '#demo';
       setIsDemoRoute(isDemo);
+      const isMeely = path === '/meely' || path.startsWith('/meely/') || hash === '#/meely' || hash === '#meely';
+      setIsMeelyRoute(isMeely);
     };
 
     checkRoute();
@@ -61,6 +65,10 @@ export const App: React.FC = () => {
         <TimelineDemo />
       </Suspense>
     );
+  }
+
+  if (isMeelyRoute) {
+    return <MeelyPage />;
   }
 
   // Standard Main Site route (/)
