@@ -47,6 +47,10 @@ export const App: React.FC = () => {
     };
   }, []);
 
+  const handleSplashComplete = React.useCallback(() => {
+    setSplashFinished(true);
+  }, []);
+
   const handleOpenInquiry = (service?: string) => {
     setPreselectedService(service);
     setInquiryModalOpen(true);
@@ -77,7 +81,7 @@ export const App: React.FC = () => {
       
       {/* Entrance Splash Screen */}
       {!splashFinished && (
-        <SplashScreen onComplete={() => setSplashFinished(true)} />
+        <SplashScreen onComplete={handleSplashComplete} />
       )}
 
       {/* Main Experience */}

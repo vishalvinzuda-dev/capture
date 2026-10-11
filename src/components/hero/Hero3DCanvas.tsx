@@ -1,16 +1,34 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
+
+const isWebGLAvailable = () => {
+  try {
+    const canvas = document.createElement('canvas');
+    return !!(
+      window.WebGLRenderingContext &&
+      (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+    );
+  } catch {
+    return false;
+  }
+};
 
 export const Hero3DCanvas: React.FC = () => {
   const mountRef = useRef<HTMLDivElement>(null);
+  const [useFallback, setUseFallback] = useState(false);
 
   useEffect(() => {
     const container = mountRef.current;
     if (!container) return;
 
+    if (!isWebGLAvailable()) {
+      setUseFallback(true);
+      return;
+    }
+
     // Dimensions
-    const width = container.clientWidth;
-    const height = container.clientHeight;
+    const width = container.clientWidth || 400;
+    const height = container.clientHeight || 400;
 
     // Scene
     const scene = new THREE.Scene();
@@ -20,11 +38,23 @@ export const Hero3DCanvas: React.FC = () => {
     camera.position.z = 6.5;
 
     // Renderer with explicit 100% alpha transparency
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor(0x000000, 0); // Completely transparent background
-    container.appendChild(renderer.domElement);
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: true,
+        powerPreference: "default",
+        failIfMajorPerformanceCaveat: false,
+      });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setClearColor(0x000000, 0); // Completely transparent background
+      container.appendChild(renderer.domElement);
+    } catch (err) {
+      console.warn("WebGL renderer creation failed, falling back to SVG visualizer:", err);
+      setUseFallback(true);
+      return;
+    }
 
     // Main Group to hold architectural 3D shapes
     const mainGroup = new THREE.Group();
@@ -213,6 +243,99 @@ export const Hero3DCanvas: React.FC = () => {
       renderer.dispose();
     };
   }, []);
+
+  if (useFallback) {
+    return (
+      <div
+        className="w-full h-full min-h-[420px] lg:min-h-[520px] relative bg-transparent flex items-center justify-center filter drop-shadow-[0_15px_35px_rgba(37,99,235,0.25)] select-none pointer-events-none"
+        aria-hidden="true"
+      >
+        <svg
+          viewBox="0 0 500 500"
+          className="w-full max-w-[460px] h-auto animate-float-gentle"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <radialGradient id="fallbackGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.35" />
+              <stop offset="50%" stopColor="#2563EB" stopOpacity="0.12" />
+              <stop offset="100%" stopColor="#1E1B4B" stopOpacity="0" />
+            </radialGradient>
+            <linearGradient id="blueWire" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#60A5FA" />
+              <stop offset="50%" stopColor="#2563EB" />
+              <stop offset="100%" stopColor="#4F46E5" />
+            </linearGradient>
+            <linearGradient id="coreFacet" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#18181B" stopOpacity="0.95" />
+              <stop offset="100%" stopColor="#09090B" stopOpacity="0.85" />
+            </linearGradient>
+          </defs>
+
+          {/* Ambient Glow */}
+          <circle cx="250" cy="250" r="210" fill="url(#fallbackGlow)" className="animate-pulse-slow" />
+
+          {/* Outer Orbital Ring 1 */}
+          <ellipse
+            cx="250"
+            cy="250"
+            rx="195"
+            ry="75"
+            stroke="#38BDF8"
+            strokeWidth="1.8"
+            strokeDasharray="6 8"
+            strokeOpacity="0.6"
+            transform="rotate(-25 250 250)"
+          />
+
+          {/* Outer Orbital Ring 2 */}
+          <ellipse
+            cx="250"
+            cy="250"
+            rx="180"
+            ry="85"
+            stroke="#818CF8"
+            strokeWidth="1.8"
+            strokeDasharray="12 6"
+            strokeOpacity="0.5"
+            transform="rotate(35 250 250)"
+          />
+
+          {/* Floating Satellite Nodes */}
+          <circle cx="110" cy="210" r="5" fill="#38BDF8" />
+          <circle cx="110" cy="210" r="10" stroke="#38BDF8" strokeWidth="1" strokeOpacity="0.4" />
+
+          <circle cx="390" cy="290" r="6" fill="#60A5FA" />
+          <circle cx="390" cy="290" r="12" stroke="#60A5FA" strokeWidth="1" strokeOpacity="0.3" />
+
+          <circle cx="290" cy="115" r="4.5" fill="#818CF8" />
+          <circle cx="200" cy="380" r="5" fill="#2563EB" />
+
+          {/* Central Architectural Wireframe Octahedron/Cage */}
+          <g transform="translate(250, 250)">
+            {/* Dark Glossy Inner Facets */}
+            <polygon points="0,-105 90,0 0,35 -90,0" fill="url(#coreFacet)" stroke="#3B82F6" strokeWidth="1.5" strokeOpacity="0.7" />
+            <polygon points="0,105 90,0 0,35 -90,0" fill="url(#coreFacet)" stroke="#2563EB" strokeWidth="1.5" strokeOpacity="0.7" />
+            <polygon points="0,-105 0,35 90,0" fill="#2563EB" fillOpacity="0.1" />
+            <polygon points="0,-105 0,35 -90,0" fill="#38BDF8" fillOpacity="0.08" />
+
+            {/* Outer Icosahedron Wireframe Lines */}
+            <polygon points="0,-140 120,-45 75,100 -75,100 -120,-45" fill="none" stroke="url(#blueWire)" strokeWidth="2" strokeOpacity="0.8" />
+            <line x1="0" y1="-140" x2="75" y2="100" stroke="#60A5FA" strokeWidth="1.5" strokeOpacity="0.5" />
+            <line x1="0" y1="-140" x2="-75" y2="100" stroke="#60A5FA" strokeWidth="1.5" strokeOpacity="0.5" />
+            <line x1="-120" y1="-45" x2="120" y2="-45" stroke="#38BDF8" strokeWidth="1.2" strokeOpacity="0.6" strokeDasharray="4 4" />
+            <line x1="-120" y1="-45" x2="75" y2="100" stroke="#818CF8" strokeWidth="1.2" strokeOpacity="0.4" />
+            <line x1="120" y1="-45" x2="-75" y2="100" stroke="#818CF8" strokeWidth="1.2" strokeOpacity="0.4" />
+
+            {/* Center Core Light Node */}
+            <circle cx="0" cy="0" r="8" fill="#38BDF8" />
+            <circle cx="0" cy="0" r="16" fill="#2563EB" fillOpacity="0.25" />
+          </g>
+        </svg>
+      </div>
+    );
+  }
 
   return (
     <div

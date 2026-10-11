@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@lucasmarkes/hairline": "^0.3.0",
+    "@playwright/test": "^1.64.0",
     "@radix-ui/react-slot": "^1.4.0",
     "@types/canvas-confetti": "^1.9.0",
     "@types/three": "^0.186.0",

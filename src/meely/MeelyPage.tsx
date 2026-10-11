@@ -23,12 +23,16 @@ export const MeelyPage: React.FC = () => {
   const heroFgMouseRef = useRef<HTMLDivElement>(null);
   const heroTextMouseRef = useRef<HTMLDivElement>(null);
 
-  // 2. Phase 1 Tour (Old frames 0..47) refs
-  const phase1SectionRef = useRef<HTMLDivElement>(null);
+  // 2. Unified Stacked Master Sequence refs (Phase 1 -> Lobby Parallax -> Phase 2)
+  const stackedContainerRef = useRef<HTMLDivElement>(null);
+  const pinnedViewportRef = useRef<HTMLDivElement>(null);
+
+  // Stack Layer 1: Phase 1 (Frames 0..47)
+  const stackLayer1Ref = useRef<HTMLDivElement>(null);
   const phase1CanvasRef = useRef<HTMLCanvasElement>(null);
 
-  // 3. Parallax Frame with Scroll Snap refs (Lobby BG + Desk FG)
-  const parallaxSectionRef = useRef<HTMLDivElement>(null);
+  // Stack Layer 2: Lobby Parallax
+  const stackLayer2Ref = useRef<HTMLDivElement>(null);
   const lobbyBgScrollRef = useRef<HTMLDivElement>(null);
   const lobbyBgMouseRef = useRef<HTMLDivElement>(null);
   const deskFgScrollRef = useRef<HTMLDivElement>(null);
@@ -36,9 +40,14 @@ export const MeelyPage: React.FC = () => {
   const lobbyTextMouseRef = useRef<HTMLDivElement>(null);
   const snapBadgeRef = useRef<HTMLDivElement>(null);
 
-  // 4. Phase 2 Tour (Extra frames 48..98) refs
-  const phase2SectionRef = useRef<HTMLDivElement>(null);
+  // Stack Layer 3: Phase 2 (Frames 48..98)
+  const stackLayer3Ref = useRef<HTMLDivElement>(null);
   const phase2CanvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Unified Stage HUD Step Indicators
+  const hudStep1Ref = useRef<HTMLDivElement>(null);
+  const hudStep2Ref = useRef<HTMLDivElement>(null);
+  const hudStep3Ref = useRef<HTMLDivElement>(null);
 
   // Global Progress bar
   const progressRef = useRef<HTMLDivElement>(null);
@@ -203,13 +212,13 @@ export const MeelyPage: React.FC = () => {
     }
 
     // -----------------------------------------------------------------
-    // 4. Mouse Parallax for Lobby Parallax Frame
+    // 4. Mouse Parallax for Stacked Stage (Grand Lobby Depth)
     // -----------------------------------------------------------------
-    const parallaxEl = parallaxSectionRef.current;
+    const pinnedEl = pinnedViewportRef.current;
     let parallaxMouseMove: ((e: MouseEvent) => void) | null = null;
     let parallaxMouseLeave: (() => void) | null = null;
 
-    if (parallaxEl && lobbyBgMouseRef.current && deskFgMouseRef.current) {
+    if (pinnedEl && lobbyBgMouseRef.current && deskFgMouseRef.current) {
       const lobbyBgQuickX = gsap.quickTo(lobbyBgMouseRef.current, "x", { duration: 0.8, ease: "power2.out" });
       const lobbyBgQuickY = gsap.quickTo(lobbyBgMouseRef.current, "y", { duration: 0.8, ease: "power2.out" });
 
@@ -222,7 +231,7 @@ export const MeelyPage: React.FC = () => {
       const lobbyTextQuickY = lobbyTextMouseRef.current ? gsap.quickTo(lobbyTextMouseRef.current, "y", { duration: 0.7, ease: "power2.out" }) : null;
 
       parallaxMouseMove = (e: MouseEvent) => {
-        const rect = parallaxEl.getBoundingClientRect();
+        const rect = pinnedEl.getBoundingClientRect();
         if (!rect || rect.height === 0) return;
         const normX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
         const normY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
@@ -248,8 +257,8 @@ export const MeelyPage: React.FC = () => {
         lobbyTextQuickY?.(0);
       };
 
-      parallaxEl.addEventListener("mousemove", parallaxMouseMove);
-      parallaxEl.addEventListener("mouseleave", parallaxMouseLeave);
+      pinnedEl.addEventListener("mousemove", parallaxMouseMove);
+      pinnedEl.addEventListener("mouseleave", parallaxMouseLeave);
     }
 
     // -----------------------------------------------------------------
@@ -287,98 +296,115 @@ export const MeelyPage: React.FC = () => {
         }
       }
 
-      // B) Frame Sequence Part 1: Old Frames (0..47)
-      if (phase1SectionRef.current) {
-        const frameTrack1 = { frame: 0 };
-        gsap.to(frameTrack1, {
-          frame: PHASE1_FRAMES - 1,
-          ease: "none",
-          scrollTrigger: {
-            id: "phase-1-old-frames",
-            trigger: phase1SectionRef.current,
-            start: "top top",
-            end: "+=280%",
-            pin: true,
-            scrub: 0.5,
-            onUpdate: () => {
-              renderPhase1(Math.round(frameTrack1.frame));
-            },
-          },
-        });
-      }
+      // B) Unified Master Section Stack: Phase 1 -> Grand Lobby Parallax -> Phase 2
+      // Single continuous master scroll pin so scrubbing never breaks between sections!
+      if (stackedContainerRef.current && pinnedViewportRef.current) {
+        gsap.set(stackLayer1Ref.current, { yPercent: 0, scale: 1, opacity: 1 });
+        gsap.set(stackLayer2Ref.current, { yPercent: 100, scale: 1, opacity: 1 });
+        gsap.set(stackLayer3Ref.current, { yPercent: 100, scale: 1, opacity: 1 });
 
-      // C) Parallax Frame with Scroll Snap (Lobby BG + Desk FG)
-      // Placed immediately after old frames with magnetic snap scroll!
-      if (parallaxSectionRef.current) {
-        const parallaxTl = gsap.timeline({
+        const frameTrack1 = { frame: 0 };
+        const frameTrack2 = { frame: 0 };
+
+        const masterTl = gsap.timeline({
           scrollTrigger: {
-            id: "lobby-parallax-snap",
-            trigger: parallaxSectionRef.current,
+            id: "meely-stacked-sequence",
+            trigger: stackedContainerRef.current,
             start: "top top",
-            end: "+=200%",
-            pin: true,
+            end: "+=720%",
+            pin: pinnedViewportRef.current,
+            pinSpacing: true,
             scrub: 0.6,
-            snap: {
-              snapTo: (value) => {
-                // Magnetically snaps to the centered hold point (0.50)
-                if (value >= 0.25 && value <= 0.75) {
-                  return 0.5;
-                }
-                if (value < 0.25) return 0;
-                return 1;
-              },
-              duration: { min: 0.35, max: 0.65 },
-              delay: 0.05,
-              ease: "power2.out",
-            },
             onUpdate: (self) => {
-              const isSnapped = self.progress >= 0.35 && self.progress <= 0.65;
+              const p = self.progress;
+
+              // Stage HUD indicator progression:
+              // Phase 1 (0.00 - 0.36) | Grand Lobby (0.36 - 0.68) | Phase 2 (0.68 - 1.00)
+              if (hudStep1Ref.current && hudStep2Ref.current && hudStep3Ref.current) {
+                if (p < 0.36) {
+                  hudStep1Ref.current.className = "flex items-center gap-1.5 text-amber-400 font-semibold transition-all duration-300";
+                  hudStep2Ref.current.className = "flex items-center gap-1.5 text-white/40 transition-all duration-300";
+                  hudStep3Ref.current.className = "flex items-center gap-1.5 text-white/40 transition-all duration-300";
+                } else if (p < 0.68) {
+                  hudStep1Ref.current.className = "flex items-center gap-1.5 text-white/40 transition-all duration-300";
+                  hudStep2Ref.current.className = "flex items-center gap-1.5 text-amber-400 font-semibold transition-all duration-300";
+                  hudStep3Ref.current.className = "flex items-center gap-1.5 text-white/40 transition-all duration-300";
+                } else {
+                  hudStep1Ref.current.className = "flex items-center gap-1.5 text-white/40 transition-all duration-300";
+                  hudStep2Ref.current.className = "flex items-center gap-1.5 text-white/40 transition-all duration-300";
+                  hudStep3Ref.current.className = "flex items-center gap-1.5 text-amber-400 font-semibold transition-all duration-300";
+                }
+              }
+
               if (snapBadgeRef.current) {
-                snapBadgeRef.current.style.opacity = isSnapped ? "1" : "0.6";
-                snapBadgeRef.current.style.transform = isSnapped
-                  ? "translate(-50%, 0)"
-                  : "translate(-50%, 8px)";
+                const isParallaxActive = p >= 0.36 && p <= 0.68;
+                snapBadgeRef.current.style.opacity = isParallaxActive ? "1" : "0";
+                snapBadgeRef.current.style.transform = isParallaxActive ? "translate(-50%, 0)" : "translate(-50%, 12px)";
               }
             },
           },
         });
 
-        // Parallax depth motion as user scrubs through this pinned frame
+        // 1. Scrub Phase 1 frames 0..47 (Exterior Approach)
+        masterTl.to(frameTrack1, {
+          frame: PHASE1_FRAMES - 1,
+          duration: 3.2,
+          ease: "none",
+          onUpdate: () => {
+            renderPhase1(Math.round(frameTrack1.frame));
+          },
+        });
+
+        // 2. Stack Transition: Layer 2 (Grand Lobby Parallax) slides up over Layer 1
+        masterTl.to(stackLayer2Ref.current, {
+          yPercent: 0,
+          duration: 1.2,
+          ease: "power2.inOut",
+        });
+        masterTl.to(stackLayer1Ref.current, {
+          scale: 0.93,
+          opacity: 0.35,
+          duration: 1.2,
+          ease: "power2.inOut",
+        }, "<");
+
+        // 3. Scrub Lobby Parallax Depth Layers (while in full focus)
         if (lobbyBgScrollRef.current) {
-          parallaxTl.fromTo(
+          masterTl.fromTo(
             lobbyBgScrollRef.current,
-            { yPercent: -8, scale: 1 },
-            { yPercent: 8, scale: 1.08, ease: "none" },
-            0
+            { yPercent: -8, scale: 1.02 },
+            { yPercent: 8, scale: 1.08, duration: 2.2, ease: "none" }
           );
         }
-
         if (deskFgScrollRef.current) {
-          parallaxTl.fromTo(
+          masterTl.fromTo(
             deskFgScrollRef.current,
             { yPercent: 8, scale: 1 },
-            { yPercent: -10, scale: 1.05, ease: "none" },
-            0
+            { yPercent: -10, scale: 1.05, duration: 2.2, ease: "none" },
+            "<"
           );
         }
-      }
 
-      // D) Frame Sequence Part 2: Extra Frames Afterwards (48..98)
-      if (phase2SectionRef.current) {
-        const frameTrack2 = { frame: 0 };
-        gsap.to(frameTrack2, {
+        // 4. Stack Transition: Layer 3 (Phase 2 Suites) slides up over Layer 2
+        masterTl.to(stackLayer3Ref.current, {
+          yPercent: 0,
+          duration: 1.2,
+          ease: "power2.inOut",
+        });
+        masterTl.to(stackLayer2Ref.current, {
+          scale: 0.93,
+          opacity: 0.35,
+          duration: 1.2,
+          ease: "power2.inOut",
+        }, "<");
+
+        // 5. Scrub Phase 2 frames 48..98 (Interior Suites Walkthrough)
+        masterTl.to(frameTrack2, {
           frame: PHASE2_FRAMES - 1,
+          duration: 3.5,
           ease: "none",
-          scrollTrigger: {
-            id: "phase-2-extra-frames",
-            trigger: phase2SectionRef.current,
-            start: "top top",
-            end: "+=280%",
-            pin: true,
-            scrub: 0.5,
-            onUpdate: () => {
-              renderPhase2(Math.round(frameTrack2.frame));
-            },
+          onUpdate: () => {
+            renderPhase2(Math.round(frameTrack2.frame));
           },
         });
       }
@@ -396,9 +422,9 @@ export const MeelyPage: React.FC = () => {
         heroEl.removeEventListener("mousemove", heroMouseMove);
         heroEl.removeEventListener("mouseleave", heroMouseLeave);
       }
-      if (parallaxEl && parallaxMouseMove && parallaxMouseLeave) {
-        parallaxEl.removeEventListener("mousemove", parallaxMouseMove);
-        parallaxEl.removeEventListener("mouseleave", parallaxMouseLeave);
+      if (pinnedEl && parallaxMouseMove && parallaxMouseLeave) {
+        pinnedEl.removeEventListener("mousemove", parallaxMouseMove);
+        pinnedEl.removeEventListener("mouseleave", parallaxMouseLeave);
       }
       window.removeEventListener("resize", handleResize);
       ctx_gsap.revert();
@@ -502,134 +528,181 @@ export const MeelyPage: React.FC = () => {
       </section>
 
       {/* ========================================================================= */}
-      {/* 2. PHASE 1: Old Frames (Exterior Approach & Entry 0..47)                  */}
+      {/* UNIFIED CONTINUOUS SECTION STACK: Phase 1 -> Lobby Parallax -> Phase 2   */}
+      {/* Continuous single master scroll pin (unbroken, zero scroll jitter)       */}
       {/* ========================================================================= */}
       <section
-        ref={phase1SectionRef}
-        className="h-screen w-full relative bg-black overflow-hidden flex items-center justify-center"
+        ref={stackedContainerRef}
+        className="relative w-full bg-black"
       >
-        <canvas
-          ref={phase1CanvasRef}
-          className="w-full h-full block object-cover will-change-transform select-none"
-        />
-
-        {/* Cinematic Vignette */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none" />
-
-        {/* Phase 1 HUD Badge */}
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 pointer-events-none text-center">
-          <div className="px-5 py-2.5 rounded-full bg-black/60 backdrop-blur-md border border-white/15 flex items-center gap-3">
-            <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
-            <span className="text-xs font-mono uppercase tracking-widest text-white/90">
-              Phase 1: Exterior Approach (Frames 0–47)
-            </span>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* 3. PARALLAX FRAME WITH SCROLL SNAP: Luxury Lobby & Marble Desk            */}
-      {/* ========================================================================= */}
-      <section
-        ref={parallaxSectionRef}
-        className="h-screen w-full relative bg-black overflow-hidden flex items-center justify-center cursor-crosshair"
-        style={{ perspective: "1400px" }}
-      >
-        {/* Background Layer: Symmetrical Luxury Lobby with Ring Lights */}
         <div
-          ref={lobbyBgScrollRef}
-          className="absolute inset-0 w-[114%] h-[120%] -left-[7%] -top-[10%] overflow-hidden pointer-events-none"
+          ref={pinnedViewportRef}
+          className="h-screen w-full relative overflow-hidden bg-black cursor-crosshair select-none"
         >
-          <div ref={lobbyBgMouseRef} className="w-full h-full will-change-transform">
-            <img
-              src={lobbyBgImg}
-              alt="Symmetrical Luxury Lobby with Ring Lights"
-              className="w-full h-full object-cover select-none"
-              style={{ transform: "translate3d(0, 0, 0)" }}
-            />
-          </div>
-        </div>
-
-        {/* Ambient Warm Gradient Blend */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-black/60 pointer-events-none z-10" />
-
-        {/* Foreground Layer: Meely Marble Reception Desk and Logo */}
-        <div
-          ref={deskFgScrollRef}
-          className="absolute inset-0 w-full h-full flex items-end justify-center pointer-events-none z-20 pb-4 sm:pb-8"
-        >
+          {/* ======================================================================= */}
+          {/* STACK LAYER 1: Phase 1 (Exterior Approach Frames 0..47)                */}
+          {/* ======================================================================= */}
           <div
-            ref={deskFgMouseRef}
-            className="w-full h-full max-w-[1920px] flex items-end justify-center will-change-transform"
-            style={{ transformStyle: "preserve-3d" }}
+            ref={stackLayer1Ref}
+            className="absolute inset-0 w-full h-full bg-black overflow-hidden flex items-center justify-center will-change-transform z-10"
           >
-            <img
-              src={deskFgImg}
-              alt="Meely Marble Reception Desk and Logo"
-              className="w-full h-auto max-h-[82vh] object-contain object-bottom select-none drop-shadow-[0_25px_60px_rgba(0,0,0,0.95)]"
-              style={{ transform: "translate3d(0, 0, 0)" }}
+            <canvas
+              ref={phase1CanvasRef}
+              className="w-full h-full block object-cover will-change-transform select-none"
             />
-          </div>
-        </div>
 
-        {/* Typography in Parallax Section */}
-        <div
-          ref={lobbyTextMouseRef}
-          className="absolute top-28 sm:top-32 left-1/2 -translate-x-1/2 z-30 pointer-events-none text-center max-w-lg px-6 will-change-transform"
-        >
-          <span className="inline-block px-3 py-1 mb-2 rounded-full bg-black/60 backdrop-blur-md border border-amber-400/30 text-[10px] font-mono tracking-widest uppercase text-amber-300">
-            Grand Reception • Parallax Experience
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-light text-white tracking-tight drop-shadow-[0_10px_20px_rgba(0,0,0,0.9)]">
-            Marble & Illumination
-          </h2>
-          <p className="mt-2 text-xs sm:text-sm text-white/70 font-light drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
-            Scroll snapped into depth view. Move cursor to inspect architectural perspective.
-          </p>
-        </div>
+            {/* Cinematic Vignette */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none" />
 
-        {/* Scroll Snap Locked HUD Badge */}
-        <div
-          ref={snapBadgeRef}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 pointer-events-none text-center transition-all duration-400 ease-out"
-        >
-          <div className="px-6 py-3.5 rounded-2xl bg-black/80 backdrop-blur-xl border border-amber-400/50 shadow-[0_15px_40px_rgba(0,0,0,0.9)] flex flex-col items-center gap-1.5 max-w-sm">
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-              <span className="text-xs font-mono font-semibold uppercase tracking-widest text-amber-300">
-                Parallax Frame • Scroll Snap Active
+            {/* Layer 1 Narrative HUD */}
+            <div className="absolute top-24 sm:top-28 left-6 sm:left-12 z-20 pointer-events-none max-w-sm sm:max-w-md">
+              <span className="inline-block px-3 py-1 mb-2 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-mono tracking-widest uppercase text-amber-300">
+                Phase 01 • Exterior Approach
               </span>
-            </div>
-            <div className="flex items-center gap-1.5 text-[11px] font-mono text-white/80 uppercase tracking-wider">
-              <span>Scroll to Continue into Interior Suites</span>
-              <span className="animate-bounce font-bold text-amber-400">↓</span>
+              <h2 className="text-2xl sm:text-4xl font-light text-white tracking-tight drop-shadow-[0_10px_20px_rgba(0,0,0,0.9)]">
+                Threshold & Facade
+              </h2>
+              <p className="mt-1 text-xs sm:text-sm text-white/70 font-light leading-relaxed">
+                Approaching the architectural entrance. Scrub down to seamlessly transition inside.
+              </p>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* ========================================================================= */}
-      {/* 4. PHASE 2: Extra Frames Afterwards (Interior Suites 48..98)              */}
-      {/* ========================================================================= */}
-      <section
-        ref={phase2SectionRef}
-        className="h-screen w-full relative bg-black overflow-hidden flex items-center justify-center"
-      >
-        <canvas
-          ref={phase2CanvasRef}
-          className="w-full h-full block object-cover will-change-transform select-none"
-        />
+          {/* ======================================================================= */}
+          {/* STACK LAYER 2: Grand Reception (3D Parallax & Depth)                   */}
+          {/* Stacks smoothly over Layer 1 as the user scrolls                        */}
+          {/* ======================================================================= */}
+          <div
+            ref={stackLayer2Ref}
+            className="absolute inset-0 w-full h-full bg-black overflow-hidden flex items-center justify-center will-change-transform z-20 shadow-[0_-30px_70px_rgba(0,0,0,0.95)] border-t border-white/10"
+            style={{ perspective: "1400px" }}
+          >
+            {/* Background Layer: Symmetrical Luxury Lobby with Ring Lights */}
+            <div
+              ref={lobbyBgScrollRef}
+              className="absolute inset-0 w-[114%] h-[120%] -left-[7%] -top-[10%] overflow-hidden pointer-events-none"
+            >
+              <div ref={lobbyBgMouseRef} className="w-full h-full will-change-transform">
+                <img
+                  src={lobbyBgImg}
+                  alt="Symmetrical Luxury Lobby with Ring Lights"
+                  className="w-full h-full object-cover select-none"
+                  style={{ transform: "translate3d(0, 0, 0)" }}
+                />
+              </div>
+            </div>
 
-        {/* Cinematic Vignette */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none" />
+            {/* Ambient Warm Gradient Blend */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-black/60 pointer-events-none z-10" />
 
-        {/* Phase 2 HUD Badge */}
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 pointer-events-none text-center">
-          <div className="px-5 py-2.5 rounded-full bg-black/60 backdrop-blur-md border border-white/15 flex items-center gap-3">
-            <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
-            <span className="text-xs font-mono uppercase tracking-widest text-white/90">
-              Phase 2: Interior Corridor Walkthrough (Frames 48–98)
-            </span>
+            {/* Foreground Layer: Meely Marble Reception Desk and Logo */}
+            <div
+              ref={deskFgScrollRef}
+              className="absolute inset-0 w-full h-full flex items-end justify-center pointer-events-none z-20 pb-4 sm:pb-8"
+            >
+              <div
+                ref={deskFgMouseRef}
+                className="w-full h-full max-w-[1920px] flex items-end justify-center will-change-transform"
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                <img
+                  src={deskFgImg}
+                  alt="Meely Marble Reception Desk and Logo"
+                  className="w-full h-auto max-h-[82vh] object-contain object-bottom select-none drop-shadow-[0_25px_60px_rgba(0,0,0,0.95)]"
+                  style={{ transform: "translate3d(0, 0, 0)" }}
+                />
+              </div>
+            </div>
+
+            {/* Typography in Parallax Section */}
+            <div
+              ref={lobbyTextMouseRef}
+              className="absolute top-24 sm:top-28 left-1/2 -translate-x-1/2 z-30 pointer-events-none text-center max-w-lg px-6 will-change-transform"
+            >
+              <span className="inline-block px-3 py-1 mb-2 rounded-full bg-black/60 backdrop-blur-md border border-amber-400/30 text-[10px] font-mono tracking-widest uppercase text-amber-300">
+                Phase 02 • Parallax Layer Stack
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-light text-white tracking-tight drop-shadow-[0_10px_20px_rgba(0,0,0,0.9)]">
+                Marble & Illumination
+              </h2>
+              <p className="mt-2 text-xs sm:text-sm text-white/70 font-light drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
+                Stacked in place. Move cursor to inspect perspective depth.
+              </p>
+            </div>
+
+            {/* Active Parallax Indicator Badge */}
+            <div
+              ref={snapBadgeRef}
+              className="absolute bottom-24 sm:bottom-28 left-1/2 -translate-x-1/2 z-30 pointer-events-none text-center transition-all duration-300 ease-out"
+            >
+              <div className="px-5 py-2.5 rounded-2xl bg-black/80 backdrop-blur-xl border border-amber-400/40 shadow-[0_15px_40px_rgba(0,0,0,0.9)] flex items-center gap-2 max-w-sm">
+                <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+                <span className="text-[11px] font-mono font-semibold uppercase tracking-widest text-amber-300">
+                  3D Parallax Stack Active • Keep Scrolling ↓
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* ======================================================================= */}
+          {/* STACK LAYER 3: Phase 2 (Interior Corridor Walkthrough 48..98)           */}
+          {/* Stacks smoothly over Layer 2 as scroll continues                         */}
+          {/* ======================================================================= */}
+          <div
+            ref={stackLayer3Ref}
+            className="absolute inset-0 w-full h-full bg-black overflow-hidden flex items-center justify-center will-change-transform z-30 shadow-[0_-30px_70px_rgba(0,0,0,0.95)] border-t border-white/10"
+          >
+            <canvas
+              ref={phase2CanvasRef}
+              className="w-full h-full block object-cover will-change-transform select-none"
+            />
+
+            {/* Cinematic Vignette */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none" />
+
+            {/* Layer 3 Narrative HUD */}
+            <div className="absolute top-24 sm:top-28 right-6 sm:right-12 z-20 pointer-events-none max-w-sm sm:max-w-md text-right">
+              <span className="inline-block px-3 py-1 mb-2 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-mono tracking-widest uppercase text-amber-300">
+                Phase 03 • Interior Corridor
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-light text-white tracking-tight drop-shadow-[0_10px_20px_rgba(0,0,0,0.9)]">
+                Executive Suites
+              </h2>
+              <p className="mt-1 text-xs sm:text-sm text-white/70 font-light leading-relaxed">
+                Walkthrough scrub continuing into private executive chambers.
+              </p>
+            </div>
+          </div>
+
+          {/* ======================================================================= */}
+          {/* UNIFIED PERSISTENT HUD NAVIGATOR (Across Entire Stack)                  */}
+          {/* ======================================================================= */}
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-40 pointer-events-none text-center">
+            <div className="px-5 py-2.5 rounded-full bg-black/85 backdrop-blur-xl border border-white/15 shadow-[0_10px_35px_rgba(0,0,0,0.9)] flex items-center gap-3 sm:gap-4 text-[11px] sm:text-xs font-mono uppercase tracking-wider">
+              <div
+                ref={hudStep1Ref}
+                className="flex items-center gap-1.5 text-amber-400 font-semibold transition-all duration-300"
+              >
+                <span className="w-2 h-2 rounded-full bg-amber-400" />
+                <span>01 Exterior</span>
+              </div>
+              <span className="text-white/20">/</span>
+              <div
+                ref={hudStep2Ref}
+                className="flex items-center gap-1.5 text-white/40 transition-all duration-300"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-white/30" />
+                <span>02 Lobby Parallax</span>
+              </div>
+              <span className="text-white/20">/</span>
+              <div
+                ref={hudStep3Ref}
+                className="flex items-center gap-1.5 text-white/40 transition-all duration-300"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-white/30" />
+                <span>03 Interior Suites</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>

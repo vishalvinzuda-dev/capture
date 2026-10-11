@@ -296,13 +296,15 @@ function initMachineScene(
       renderer = new THREE.WebGLRenderer({
         antialias: true,
         alpha: true,
-        powerPreference: 'high-performance',
+        powerPreference: 'default',
+        failIfMajorPerformanceCaveat: false,
       })
     } catch (e) {
+      console.warn('AgenticFactory3D: WebGL initialization failed', e)
       showError(
-        'WebGL is not available. Turn on hardware acceleration in your browser settings and reload the page.'
+        'WebGL is currently unavailable in your browser. Enable hardware acceleration in your browser settings to interact with the 3D scene.'
       )
-      throw e
+      return dispose
     }
     renderer.setClearColor(0x000000, 0)
     renderer.setPixelRatio(Math.min(devicePixelRatio, frameWidth() < 900 ? 1.5 : 1.75))

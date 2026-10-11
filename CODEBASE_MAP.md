@@ -87,11 +87,11 @@ Use this table to jump directly to the relevant file for any incoming user task:
 | :--- | :--- | :--- |
 | **Meely Full Page Experience** | `src/meely/MeelyPage.tsx` | Integrated GSAP ScrollTrigger + 3D mouse parallax + Canvas renderer |
 | **Hero Mouse Parallax Layers** | `src/meely/MeelyPage.tsx` (lines 117–170) | `bg.png` (streetscape) + `fg.png` (building render with 3D tilt) |
-| **48-Frame Canvas Scrub Engine** | `src/meely/MeelyPage.tsx` (lines 31–116, 210–272) | Preloads 48 WebP frames, scales via `devicePixelRatio`, object-cover render |
-| **Scroll Pin & Snap Logic** | `src/meely/MeelyPage.tsx` (lines 224–270) | Extended `+=360%` pin, magnetic snap at `0.88` to pause on final perspective |
-| **Scrub & Resting Badges** | `src/meely/MeelyPage.tsx` (lines 399–432) | Interactive HUD badge transitions to final resting perspective card |
-| **Frame Image Sequence Assets** | `public/meely-frames/` | `frame-000.webp` through `frame-047.webp` |
-| **Source Assets & Renders** | `src/meely/` | `bg.png`, `fg.png`, reception desk renders, zipped source frames |
+| **99-Frame Canvas Scrub Engine** | `src/meely/MeelyPage.tsx` | Preloads 99 WebP frames (Phase 1: 0..47 & Phase 2: 48..98), High-DPI object-cover render |
+| **Unified Section Stack Pin** | `src/meely/MeelyPage.tsx` | Single continuous master pin (`+=720%`) stacking Phase 1 -> Lobby Parallax -> Phase 2 with zero scroll breaks |
+| **Persistent Stage HUD Navigator** | `src/meely/MeelyPage.tsx` | 3-step active progress indicator across all 3 stacked phases |
+| **Frame Image Sequence Assets** | `public/meely-frames/` | `frame-000.webp` through `frame-098.webp` (99 frames) |
+| **Source Assets & Renders** | `src/meely/` | `bg.png`, `fg.png`, `lobby-bg.png`, `desk-fg.png` |
 
 ---
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface SplashScreenProps {
@@ -8,23 +8,51 @@ interface SplashScreenProps {
 export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
   const [progress, setProgress] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
 
   useEffect(() => {
+    let completed = false;
+
+    const finish = () => {
+      if (completed) return;
+      completed = true;
+      setProgress(100);
+      setIsFinished(true);
+      // Seamlessly trigger parent display as splash begins fading out
+      setTimeout(() => {
+        onCompleteRef.current();
+      }, 400);
+    };
+
     const timer = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(timer);
-          setTimeout(() => setIsFinished(true), 300);
-          setTimeout(() => onComplete(), 900);
+          finish();
           return 100;
         }
-        const increment = Math.floor(Math.random() * 15) + 8;
-        return Math.min(prev + increment, 100);
+        const increment = Math.floor(Math.random() * 18) + 12;
+        const next = Math.min(prev + increment, 100);
+        if (next >= 100) {
+          clearInterval(timer);
+          finish();
+        }
+        return next;
       });
-    }, 70);
+    }, 50);
 
-    return () => clearInterval(timer);
-  }, [onComplete]);
+    // Hard safety timeout: never block the user for more than 1.4s under any condition
+    const safetyTimer = setTimeout(() => {
+      clearInterval(timer);
+      finish();
+    }, 1400);
+
+    return () => {
+      clearInterval(timer);
+      clearTimeout(safetyTimer);
+    };
+  }, []);
 
   return (
     <AnimatePresence>
