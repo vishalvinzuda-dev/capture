@@ -21,6 +21,7 @@ export interface PortfolioItem {
   tags: string[];
   image: string;
   accentColor: string;
+  externalUrl?: string;
 }
 
 export interface TestimonialItem {

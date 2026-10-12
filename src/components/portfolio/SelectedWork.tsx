@@ -3,12 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowRight,
   ExternalLink,
-  Sparkles,
-  Filter,
   X,
   CheckCircle2,
   CreditCard,
-  Sliders,
   Info,
 } from 'lucide-react';
 import Riffle from '../ui/hairline-riffle';
@@ -19,31 +16,14 @@ interface PortfolioSectionProps {
   onOpenInquiry: (service?: string) => void;
 }
 
-const CATEGORIES = [
-  'All Work',
-  'Software & ERP',
-  'Branding & Identity',
-  'Printing & Packaging',
-  'Website & UI/UX',
-  'Marketing & Shoots',
-];
-
 export const SelectedWork: React.FC<PortfolioSectionProps> = ({
   onOpenInquiry,
 }) => {
-  const [selectedCategory, setSelectedCategory] = useState('All Work');
   const [activeProject, setActiveProject] = useState<PortfolioItem | null>(null);
   const [previewProject, setPreviewProject] = useState<PortfolioItem | null>(null);
   const [riffleStatusText, setRiffleStatusText] = useState<string>(
     'Tray at rest. Hover or use arrow keys to pull cards.'
   );
-
-  const filteredProjects =
-    selectedCategory === 'All Work'
-      ? PORTFOLIO_PROJECTS
-      : PORTFOLIO_PROJECTS.filter((p) =>
-          p.category.includes(selectedCategory.split(' ')[0])
-        );
 
   return (
     <section

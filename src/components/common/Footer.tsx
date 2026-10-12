@@ -30,7 +30,7 @@ export const Footer: React.FC = () => {
               </span>
             </div>
 
-            <p className="text-xs font-semibold uppercase tracking-widest text-neutral-800">
+            <p className="text-sm sm:text-base font-semibold lowercase tracking-wide text-neutral-800">
               {COMPANY_INFO.tagline}
             </p>
 

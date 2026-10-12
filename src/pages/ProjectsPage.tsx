@@ -5,9 +5,7 @@ import {
   ExternalLink,
   X,
   CheckCircle2,
-  Sliders,
   FolderKanban,
-  Sparkles,
 } from 'lucide-react';
 import { PORTFOLIO_PROJECTS } from '../data/content';
 import { PortfolioItem } from '../types';
@@ -281,17 +279,29 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({
                   >
                     Close
                   </button>
-                  <button
-                    onClick={() => {
-                      const title = activeProject.category;
-                      setActiveProject(null);
-                      onOpenInquiry(title);
-                    }}
-                    className="px-5 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-xs font-semibold flex items-center space-x-2"
-                  >
-                    <span>Request Proposal Like This</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
+
+                  <div className="flex items-center space-x-2">
+                    {activeProject.externalUrl && (
+                      <a
+                        href={activeProject.externalUrl}
+                        className="px-4 py-2.5 bg-[#D97706] hover:bg-[#b45309] text-white rounded-xl text-xs font-semibold flex items-center space-x-2 shadow-xs transition-all"
+                      >
+                        <span>Launch 3D Experience</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                    <button
+                      onClick={() => {
+                        const title = activeProject.category;
+                        setActiveProject(null);
+                        onOpenInquiry(title);
+                      }}
+                      className="px-5 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-xs font-semibold flex items-center space-x-2"
+                    >
+                      <span>Request Proposal Like This</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </motion.div>

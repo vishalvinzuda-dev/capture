@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ArrowUpRight, MessageCircle } from 'lucide-react';
-import { COMPANY_INFO } from '../../data/content';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
 
 interface NavbarProps {
   onOpenInquiry: (service?: string) => void;
@@ -142,16 +141,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </nav>
 
           {/* Right Action CTA: Start a Project */}
-          <div className="hidden sm:flex items-center space-x-3">
-            <a
-              href={`https://wa.me/${COMPANY_INFO.whatsapp}?text=Hi%20Capture%20Creatives!%20I%20would%20like%20to%20discuss%20a%20project.`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 text-neutral-600 hover:text-[#128C7E] hover:bg-green-50 rounded-xl transition-colors"
-              title="Chat on WhatsApp"
-            >
-              <MessageCircle className="w-4 h-4" />
-            </a>
+          <div className="hidden sm:flex items-center">
             <button
               onClick={() => onOpenInquiry()}
               className="px-5 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-xs font-semibold tracking-wide transition-all shadow-xs hover:shadow flex items-center space-x-1.5"
@@ -231,7 +221,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               </div>
             </div>
 
-            <div className="pt-6 border-t border-neutral-200 space-y-3">
+            <div className="pt-6 border-t border-neutral-200">
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
@@ -242,15 +232,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span>Start a Project</span>
                 <ArrowUpRight className="w-4 h-4" />
               </button>
-              <a
-                href={`https://wa.me/${COMPANY_INFO.whatsapp}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-2.5 bg-[#25D366]/10 text-[#128C7E] rounded-xl text-xs font-semibold flex items-center justify-center space-x-2 border border-[#25D366]/30"
-              >
-                <MessageCircle className="w-4 h-4" />
-                <span>Quick WhatsApp Inquiry</span>
-              </a>
             </div>
           </motion.div>
         )}

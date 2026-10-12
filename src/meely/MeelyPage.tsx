@@ -728,11 +728,16 @@ export const MeelyPage: React.FC = () => {
           </button>
 
           <a
-            href="/"
+            href="#/projects"
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.hash = '#/projects';
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
             className="px-4 py-2 rounded-full bg-black/60 backdrop-blur-xl border border-white/10 text-[11px] font-mono tracking-wider uppercase text-white/80 hover:bg-white/10 hover:text-white transition-colors flex items-center gap-1.5"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Main Agency</span>
+            <span className="hidden sm:inline">Back to Projects</span>
           </a>
         </div>
       </header>

@@ -3,14 +3,14 @@ import { ServiceItem, PortfolioItem, TestimonialItem, ProcessStep, StatItem } fr
 export const COMPANY_INFO = {
   name: 'Capture Creatives',
   founded: '2025',
-  tagline: 'Design. Build. Brand. Grow.',
+  tagline: 'marketing that matters',
   heroTagline: 'One Creative Partner. From Brand to Business.',
   headline: 'WE TURN IDEAS INTO EXPERIENCES.',
   subheadline: 'Branding. Design. Digital. Software. Everything your business needs to move forward.',
   description: 'Capture Creatives combines creative design, branding, printing, marketing, websites and custom software to build complete business solutions under one roof.',
-  email: 'hello@capturecreatives.in',
-  phone: '+91 94290 84444',
-  whatsapp: '919429084444',
+  email: 'capturecreatives@gmail.com',
+  phone: '+91 84690 30892',
+  whatsapp: '918469030892',
   location: 'Rajkot, Gujarat, India',
   address: 'Creative Tech Studio, Rajkot, Gujarat, India 360005',
   availability: 'Accepting select new projects for 2025/2026',
@@ -239,6 +239,20 @@ export const PORTFOLIO_PROJECTS: PortfolioItem[] = [
     accentColor: '#0284C7'
   },
   {
+    id: 'meely-architectural-3d',
+    title: 'Meely Real Estate & Spatial Experience',
+    client: 'Meely Living',
+    category: 'Website & UI/UX',
+    year: '2025',
+    tagline: 'Immersive 3D architectural sequence and interactive spatial showcase.',
+    description: 'A cutting-edge WebGL & GSAP 3D interactive web environment offering high-fidelity street-to-lobby walkthroughs, phase-locked camera sequencing, and dynamic spatial inspection.',
+    deliverables: ['3D Web Architecture', 'GSAP Cinematic Sequencing', 'Dual-Phase Canvas Scrub', 'Bespoke Soundscapes'],
+    tags: ['3D WebGL', 'Architecture', 'Interactive UI', 'GSAP'],
+    image: '/meely-frames/0048.webp',
+    accentColor: '#D97706',
+    externalUrl: '#/projects/meely'
+  },
+  {
     id: 'vanguard-digital-hub',
     title: 'Vanguard Capital Digital Platform',
     client: 'Vanguard Partners',
@@ -352,57 +366,6 @@ export const WHY_CHOOSE_US = [
     number: '06',
     title: 'LONG-TERM PARTNER',
     description: 'We build lasting strategic relationships as your dedicated in-house creative and technological growth arm.'
-  }
-];
-
-export const SOCIAL_IMPACT_DATA = {
-  title: 'CREATIVE WORK. REAL-WORLD IMPACT.',
-  subtitle: 'Community, Health & Social Responsibility Initiatives',
-  yiInvolvement: 'Active 3-year commitment with Young Indians (Yi) driving impactful grassroots youth initiatives.',
-  pledge: '10% of Capture Creatives profits are personally contributed towards social, educational, and community initiatives.',
-  initiatives: [
-    {
-      title: 'CPR & First Responder Training',
-      stat: '400+ Students',
-      desc: 'Trained over 400 RK University students with certified life-saving first responder and emergency CPR skills.'
-    },
-    {
-      title: 'Medical Awareness & Health Drives',
-      stat: 'Multi-City',
-      desc: 'Spearheaded preventative health awareness camps and wellness education sessions across student and youth communities.'
-    },
-    {
-      title: 'Civic & Campus Clean-Up Drives',
-      stat: 'Active Action',
-      desc: 'Organized extensive environmental cleanliness and sustainability campaigns across regional zones.'
-    }
-  ]
-};
-
-export const ACHIEVEMENTS_DATA = [
-  {
-    category: 'ATHLETICS & EXCELLENCE',
-    title: '2× National Badminton Gold Medal',
-    subtitle: 'National Level Achievement',
-    desc: 'Demonstrated athletic discipline, resilience, and high-performance focus under pressure.',
-    tag: 'Sports Leadership',
-    year: 'National Level'
-  },
-  {
-    category: 'LEADERSHIP & SERVICE',
-    title: 'Young Indians (Yi) — Yuva Chair',
-    subtitle: 'Yuva Health Chair & Yuva Co-Chair',
-    desc: 'Led youth health chapters, spearheaded state-level youth conferences, and drove community health policy advocacy.',
-    tag: 'Community Leadership',
-    year: '3+ Years'
-  },
-  {
-    category: 'UNIVERSITY INITIATIVE',
-    title: 'RKU Shutter Smashers Club',
-    subtitle: 'Founder & Operations Management',
-    desc: 'Handled operations, organized inter-college championships, and managed club engagement at RK University.',
-    tag: 'Club Management',
-    year: 'RK University'
   }
 ];
 

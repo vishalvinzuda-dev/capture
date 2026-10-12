@@ -24,9 +24,9 @@ Routing is handled via lightweight URL / hash detection in `src/App.tsx`:
 
 | Route | Hash Fallback | Component | Description |
 | :--- | :--- | :--- | :--- |
-| `/` | `#/` | `src/App.tsx` (Main View) | Single-page Capture Creatives agency experience (Hero, Services, Case Study, Work, Estimator, Contact). |
-| `/meely` | `#/meely` | `src/meely/MeelyPage.tsx` | Dedicated client showcase with 3D mouse parallax and 99-frame interactive 3-phase camera scrub canvas (Exterior -> Lobby 3D -> Executive Suites). |
-| `/demo` | `#/demo` | `src/demo/index.tsx` | UI Lab Experiments: Agentic Factory 3D, Timelines, Hairline Riffle, Radial Orbit, Scroll Expansion. |
+| `/` | `#/` | `src/App.tsx` (Main View) | Single-page Capture Creatives agency experience (Hero, Services, Case Study, Work tray, Contact). |
+| `/projects` | `#/projects` | `src/pages/ProjectsPage.tsx` | Full projects showcase catalog organized section-by-section (categories). |
+| `/projects/meely` | `#/projects/meely` | `src/meely/MeelyPage.tsx` | Dedicated client showcase with 3D mouse parallax and 99-frame interactive 3-phase camera scrub canvas (Exterior -> Lobby 3D -> Executive Suites). |
 
 ---
 
@@ -47,8 +47,6 @@ Use this table to jump directly to the relevant file for any incoming user task:
 | Portfolio projects list (clients, tags, descriptions, deliverables) | `src/data/content.ts` | `PORTFOLIO_PROJECTS` |
 | Client Testimonials & quotes | `src/data/content.ts` | `TESTIMONIALS_DATA` |
 | "Why Businesses Choose CC" 6 points | `src/data/content.ts` | `WHY_CHOOSE_US` |
-| Social Impact & Yi Youth CPR initiatives | `src/data/content.ts` | `SOCIAL_IMPACT_DATA` |
-| Founder athletic & leadership achievements (Badminton, Yi Chair) | `src/data/content.ts` | `ACHIEVEMENTS_DATA` |
 | 5-Step Process (Discover, Define, Create, Build, Deliver) | `src/data/content.ts` | `PROCESS_STEPS` |
 | Data Types & TypeScript Interfaces | `src/types/index.ts` | `ServiceItem`, `PortfolioItem`, `TestimonialItem`, `ProcessStep`, `StatItem` |
 
@@ -67,13 +65,11 @@ Use this table to jump directly to the relevant file for any incoming user task:
 | **Services Grid** | `src/components/services/ServicesSection.tsx` | Category tabs, service deliverable pills, modal trigger |
 | **Signature Difference Pipeline** | `src/components/difference/SignatureDifference.tsx` | 8-step pipeline horizontal workflow |
 | **Featured Case Study (Prabhu Group)** | `src/components/casestudy/PrabhuGroupCaseStudy.tsx` | Interactive Before/After toggle, ERP modules |
-| **Selected Work Portfolio** | `src/components/portfolio/SelectedWork.tsx` | Category filter, project cards, `Riffle` drawer |
+| **Selected Work Portfolio** | `src/components/portfolio/SelectedWork.tsx` | Interactive `Riffle` card tray preview |
+| **Projects Showcase Page** | `src/pages/ProjectsPage.tsx` | Categorized project grid (`/projects`) |
 | **Client Testimonials** | `src/components/testimonials/TestimonialsSection.tsx` | Testimonial quote cards, avatars |
-| **Why Choose CC** | `src/components/why/WhyChooseUs.tsx` | 6-card value proposition grid |
-| **Social Impact & CSR** | `src/components/impact/SocialImpact.tsx` | Yi initiatives, 10% pledge banner |
-| **Achievements Showcase** | `src/components/achievements/AchievementsSection.tsx` | 2x National Badminton Gold, sports discipline |
+| **Why Choose CC** | `src/components/why/WhyChooseUs.tsx` | Radial orbital timeline interactive visualization |
 | **5-Step Work Process** | `src/components/process/ProcessSection.tsx` | Step accordions / timeline tabs |
-| **Interactive Scope & Cost Estimator** | `src/components/calculator/ProjectEstimator.tsx` | Multi-select service checklist, timeline speed, pricing calculation |
 | **Dramatic CTA** | `src/components/cta/DramaticCTA.tsx` | Full-bleed conversion section |
 | **Contact Form & Info** | `src/components/contact/ContactSection.tsx` | Form fields, validation, confetti, direct phone/email |
 | **Project Inquiry Modal** | `src/components/common/ProjectInquiryModal.tsx` | Preselected service, budget ranges, timeline options, confetti |
@@ -81,7 +77,7 @@ Use this table to jump directly to the relevant file for any incoming user task:
 
 ---
 
-### 3. Meely 3D & Architectural Tour Experience (`/meely`)
+### 3. Meely 3D & Architectural Tour Experience (`/projects/meely`)
 
 | Sub-system | Target File / Path | Notes |
 | :--- | :--- | :--- |
@@ -99,22 +95,7 @@ Use this table to jump directly to the relevant file for any incoming user task:
 
 ---
 
-### 4. UI Lab & Experimental Components (`/demo`)
-
-| Component / Experiment | File Path | Description |
-| :--- | :--- | :--- |
-| **UI Lab Main Page** | `src/demo/index.tsx` | Interactive testbed for complex widgets |
-| **Agentic Factory 3D** | `src/components/ui/agentic-factory-3d.tsx` + `.css` | Heavyweight 3D interactive assembly visualizer (71 KB) |
-| **Timeline** | `src/components/ui/timeline.tsx` | Vertical scrubbable timeline with progress markers |
-| **Hairline Riffle** | `src/components/ui/hairline-riffle.tsx` | Interactive deck/card riffle selector (also used in Selected Work) |
-| **Scroll Expansion Hero** | `src/components/ui/scroll-expansion-hero.tsx` | Expanding card hero triggered by wheel/scroll |
-| **Radial Orbital Timeline** | `src/components/ui/radial-orbital-timeline.tsx` | Circular orbital node graph with physics & state |
-| **Marquee** | `src/components/ui/marquee.tsx` | Smooth infinite scrolling horizontal banner |
-| **UI Primitives** | `src/components/ui/badge.tsx`, `button.tsx`, `card.tsx` | Reusable Radix / Tailwind primitives |
-
----
-
-### 5. Styling, Design System & Assets
+### 4. Styling, Design System & Assets
 
 | Asset / System | File Path | Details |
 | :--- | :--- | :--- |
@@ -131,7 +112,7 @@ Use this table to jump directly to the relevant file for any incoming user task:
 
 1. **Do Not Hallucinate Missing Configs**: This project uses **Tailwind CSS v4** via `@import "tailwindcss";`. Do NOT look for `tailwind.config.js` or `postcss.config.js`.
 2. **Never Edit Hardcoded Text in Components**: When the user asks to change prices, deliverables, testimonials, slogans, or stats, make all edits directly in `src/data/content.ts`.
-3. **Route Awareness**: Notice that `App.tsx` checks both `window.location.pathname` AND `window.location.hash` (`/meely` vs `#/meely`). This ensures seamless compatibility on static hosts (Netlify/GitHub Pages).
+3. **Route Awareness**: Notice that `App.tsx` checks both `window.location.pathname` AND `window.location.hash` (`/projects/meely` vs `#/projects/meely`). This ensures seamless compatibility on static hosts (Netlify/GitHub Pages).
 4. **GSAP Cleanup in React 19**: If adding or editing GSAP animations, always wrap them in `gsap.context((self) => { ... }, scopeRef)` and call `ctx.revert()` in the cleanup callback to avoid duplicate triggers during re-renders.
 5. **Three.js Canvas Transparencies**: Any Three.js canvas in this project (like `Hero3DCanvas.tsx`) uses `alpha: true` and `setClearColor(0x000000, 0)` to seamlessly blend with the `#FAFAF9` light mode or black dark mode backgrounds.
 6. **Performance First**: Frame sequences are hosted as modern `.webp` in `public/meely-frames/`. When adding media, avoid uncompressed PNGs/AVIs.
@@ -153,30 +134,27 @@ f:\WebSites\04\
 ├── src\
 │   ├── assets\             # Syne fonts, hero assets, SVG icons
 │   ├── components\
-│   │   ├── achievements\   # AchievementsSection.tsx
-│   │   ├── calculator\     # ProjectEstimator.tsx (interactive scope & cost calculator)
 │   │   ├── casestudy\      # PrabhuGroupCaseStudy.tsx (ERP case study)
 │   │   ├── common\         # Navbar.tsx, Footer.tsx, SplashScreen.tsx, ProjectInquiryModal.tsx, ErrorBoundary.tsx
 │   │   ├── contact\        # ContactSection.tsx
 │   │   ├── cta\            # DramaticCTA.tsx
 │   │   ├── difference\     # SignatureDifference.tsx (8-step pipeline)
 │   │   ├── hero\           # HeroSection.tsx, Hero3DCanvas.tsx (Three.js WebGL scene)
-│   │   ├── impact\         # SocialImpact.tsx (CSR & Yi initiatives)
 │   │   ├── portfolio\      # SelectedWork.tsx (projects gallery & Riffle)
 │   │   ├── process\        # ProcessSection.tsx (5-step process)
 │   │   ├── services\       # ServicesSection.tsx (6 core service cards)
 │   │   ├── stats\          # QuickStats.tsx (trust counters)
 │   │   ├── testimonials\   # TestimonialsSection.tsx
-│   │   ├── ui\             # Reusable UI widgets (agentic-factory-3d, timeline, riffle, etc.)
-│   │   └── why\            # WhyChooseUs.tsx (6 key reasons)
+│   │   ├── ui\             # Reusable UI widgets (hairline-riffle, radial-orbital-timeline)
+│   │   └── why\            # WhyChooseUs.tsx (orbital timeline)
 │   ├── data\
 │   │   └── content.ts      # 🌟 Single source of truth for all copy & project data
-│   ├── demo\
-│   │   └── index.tsx       # /demo route laboratory for experimental widgets
 │   ├── lib\
 │   │   └── utils.ts        # cn() className merger
 │   ├── meely\
-│   │   └── MeelyPage.tsx   # /meely 3D parallax & 99-frame 3-phase canvas scrub showcase
+│   │   └── MeelyPage.tsx   # /projects/meely 3D parallax & 99-frame 3-phase canvas scrub showcase
+│   ├── pages\
+│   │   └── ProjectsPage.tsx # /projects full categorized showcase
 │   ├── types\
 │   │   └── index.ts        # TypeScript data interfaces
 │   ├── App.tsx             # Root router & main single-page layout

@@ -1,12 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import {
-  Layers,
-  ArrowRight,
-  Workflow,
-  Sparkles,
-  RefreshCw,
-} from 'lucide-react';
 import Timeline, { JourneyItem } from '../ui/timeline';
 import { WORKFLOW_PIPELINE } from '../../data/content';
 

@@ -2,9 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import { ArrowRight, Link, Zap } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export interface TimelineItem {
   id: number;
@@ -343,8 +340,8 @@ export default function RadialOrbitalTimeline({
 
                 {/* Node Expanded Card */}
                 {isExpanded && (
-                  <Card
-                    className={`absolute top-20 left-1/2 -translate-x-1/2 w-72 backdrop-blur-xl shadow-2xl overflow-visible z-50 ${
+                  <div
+                    className={`absolute top-20 left-1/2 -translate-x-1/2 w-72 rounded-2xl border backdrop-blur-xl shadow-2xl overflow-visible z-50 p-4 ${
                       isLight
                         ? "bg-white/95 border-neutral-200/90 text-neutral-900 shadow-amber-500/15"
                         : "bg-black/90 border-white/30 shadow-white/10 text-white"
@@ -355,10 +352,10 @@ export default function RadialOrbitalTimeline({
                         isLight ? "bg-[#F9BA1D]" : "bg-white/50"
                       }`}
                     ></div>
-                    <CardHeader className="pb-2">
+                    <div className="pb-2">
                       <div className="flex justify-between items-center">
-                        <Badge
-                          className={`px-2 text-xs ${getStatusStyles(
+                        <span
+                          className={`inline-flex items-center rounded-full border px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider ${getStatusStyles(
                             item.status
                           )}`}
                         >
@@ -367,7 +364,7 @@ export default function RadialOrbitalTimeline({
                             : item.status === "in-progress"
                             ? "IN PROGRESS"
                             : "PENDING"}
-                        </Badge>
+                        </span>
                         <span
                           className={`text-xs font-mono ${
                             isLight ? "text-neutral-500" : "text-white/50"
@@ -376,15 +373,15 @@ export default function RadialOrbitalTimeline({
                           {item.date}
                         </span>
                       </div>
-                      <CardTitle
+                      <h3
                         className={`text-sm mt-2 font-bold font-display ${
                           isLight ? "text-neutral-900" : "text-white"
                         }`}
                       >
                         {item.title}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent
+                      </h3>
+                    </div>
+                    <div
                       className={`text-xs ${
                         isLight ? "text-neutral-600" : "text-white/80"
                       }`}
@@ -459,11 +456,10 @@ export default function RadialOrbitalTimeline({
                                 (i) => i.id === relatedId
                               );
                               return (
-                                <Button
+                                <button
                                   key={relatedId}
-                                  variant="outline"
-                                  size="sm"
-                                  className={`flex items-center h-6 px-2.5 py-0 text-xs rounded-lg transition-all ${
+                                  type="button"
+                                  className={`flex items-center h-6 px-2.5 py-0 text-xs rounded-lg border transition-all ${
                                     isLight
                                       ? "border-amber-200 bg-amber-50/70 hover:bg-amber-100 text-[#B45309] hover:border-amber-300"
                                       : "border-white/20 bg-transparent hover:bg-white/10 text-white/80 hover:text-white"
@@ -480,14 +476,14 @@ export default function RadialOrbitalTimeline({
                                       isLight ? "text-neutral-400" : "text-white/60"
                                     }`}
                                   />
-                                </Button>
+                                </button>
                               );
                             })}
                           </div>
                         </div>
                       )}
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </div>
                 )}
               </div>
             );

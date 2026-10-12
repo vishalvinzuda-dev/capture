@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SplashScreen } from './components/common/SplashScreen';
 import { Navbar } from './components/common/Navbar';
 import { HeroSection } from './components/hero/HeroSection';
@@ -17,10 +17,7 @@ import { ProjectInquiryModal } from './components/common/ProjectInquiryModal';
 import { MeelyPage } from './meely/MeelyPage';
 import { ProjectsPage } from './pages/ProjectsPage';
 
-const TimelineDemo = React.lazy(() => import('./demo'));
-
 export const App: React.FC = () => {
-  const [isDemoRoute, setIsDemoRoute] = useState(false);
   const [isMeelyRoute, setIsMeelyRoute] = useState(false);
   const [isProjectsRoute, setIsProjectsRoute] = useState(false);
   const [splashFinished, setSplashFinished] = useState(false);
@@ -31,11 +28,20 @@ export const App: React.FC = () => {
     const checkRoute = () => {
       const path = window.location.pathname;
       const hash = window.location.hash;
-      const isDemo = path === '/demo' || path.startsWith('/demo/') || hash === '#/demo' || hash === '#demo';
-      setIsDemoRoute(isDemo);
-      const isMeely = path === '/meely' || path.startsWith('/meely/') || hash === '#/meely' || hash === '#meely';
+      const isMeely =
+        path === '/projects/meely' ||
+        path.startsWith('/projects/meely/') ||
+        hash === '#/projects/meely' ||
+        hash === '#projects/meely' ||
+        path === '/meely' ||
+        hash === '#/meely';
       setIsMeelyRoute(isMeely);
-      const isProjects = path === '/projects' || path.startsWith('/projects/') || hash === '#/projects' || hash === '#projects';
+      const isProjects =
+        !isMeely &&
+        (path === '/projects' ||
+          path.startsWith('/projects/') ||
+          hash === '#/projects' ||
+          hash === '#projects');
       setIsProjectsRoute(isProjects);
     };
 
@@ -57,20 +63,7 @@ export const App: React.FC = () => {
     setInquiryModalOpen(true);
   };
 
-  // If on /demo route, render the isolated Timeline & 3D Machine UI experiments
-  if (isDemoRoute) {
-    return (
-      <Suspense
-        fallback={
-          <div className="min-h-screen bg-[#FAFAF9] flex items-center justify-center font-mono text-xs text-neutral-500">
-            Loading UI Lab Experiments...
-          </div>
-        }
-      >
-        <TimelineDemo />
-      </Suspense>
-    );
-  }
+
 
   if (isMeelyRoute) {
     return <MeelyPage />;

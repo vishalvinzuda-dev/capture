@@ -1,20 +1,10 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
 import {
-  Server,
   ArrowRight,
-  Database,
   CheckCircle2,
-  Sliders,
-  TrendingUp,
-  Cpu,
-  Layers,
   Sparkles,
-  ShieldCheck,
   Zap,
-  Clock,
   FileSpreadsheet,
-  Activity
 } from 'lucide-react';
 import { PRABHU_CASE_STUDY } from '../../data/content';
 
@@ -23,8 +13,6 @@ interface CaseStudyProps {
 }
 
 export const PrabhuGroupCaseStudy: React.FC<CaseStudyProps> = ({ onOpenInquiry }) => {
-  const [viewState, setViewState] = useState<'BEFORE' | 'AFTER'>('AFTER');
-  const [activeTab, setActiveTab] = useState(0);
 
   return (
     <section id="case-study" className="relative py-24 bg-[#FAFAF9] overflow-hidden">
