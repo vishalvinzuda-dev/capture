@@ -1,128 +1,88 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import {
   Mail,
   Phone,
   MapPin,
-  MessageSquare,
-  Send,
-  Sparkles,
-  Building,
-  User,
-  CheckCircle,
-  Clock,
-  ArrowRight
 } from 'lucide-react';
-import confetti from 'canvas-confetti';
 import { COMPANY_INFO } from '../../data/content';
-
-const SERVICE_OPTIONS = [
-  'Branding',
-  'Graphic Design',
-  'Printing Solutions',
-  'Website Development',
-  'Custom Software & ERP',
-  'Digital Marketing',
-  'Product / Personal Shoots',
-  'Other / Complete Solution'
-];
-
-const BUDGET_RANGES = [
-  'Select Budget Range',
-  '₹25,000 – ₹50,000',
-  '₹50,000 – ₹1,50,000',
-  '₹1,50,000 – ₹5,00,000',
-  '₹5,00,000+'
-];
+import { GlobeWireframe } from '../ui/contact-with-globe';
+import { ProjectInquiryWizard } from '../common/ProjectInquiryWizard';
 
 export const ContactSection: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    company: '',
-    email: '',
-    phone: '',
-    service: 'Branding',
-    budget: '₹50,000 – ₹1,50,000',
-    details: ''
-  });
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-      setSubmitted(true);
-      confetti({
-        particleCount: 70,
-        spread: 60,
-        origin: { y: 0.7 }
-      });
-    }, 600);
-  };
-
-  const handleWhatsApp = () => {
-    const msg = `Hi Capture Creatives! I'd like to talk about a project for ${formData.company || formData.name || 'my business'}. Service: ${formData.service}.`;
-    window.open(`https://wa.me/${COMPANY_INFO.whatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
-  };
-
   return (
     <section id="contact" className="relative py-24 bg-[#FAFAF9] overflow-hidden">
+      {/* Background radial glow */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-linear-to-b from-amber-500/5 via-amber-500/0 to-transparent pointer-events-none blur-3xl" />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-neutral-900 tracking-tight leading-tight font-display">
+          <motion.h2
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-neutral-900 tracking-tight leading-tight font-display"
+          >
             START THE CONVERSATION
-          </h2>
+          </motion.h2>
 
-          <p className="mt-4 text-sm text-neutral-600 max-w-lg mx-auto leading-relaxed font-subheading">
-            Tell us about your objectives, timeline, or business problem. We respond promptly with actionable insights.
-          </p>
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="mt-4 text-sm text-neutral-600 max-w-lg mx-auto leading-relaxed font-subheading"
+          >
+            Tell us about your objectives, timeline, or business challenge. We respond promptly with actionable insights and strategic clarity.
+          </motion.p>
         </div>
 
-        {/* 2-Column Contact Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        {/* 2-Column Responsive Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
           
-          {/* Left Column: Direct Studio Meta & Details */}
-          <div className="lg:col-span-5 space-y-8">
-            <div className="p-8 rounded-3xl bg-white border border-neutral-200 shadow-xs space-y-6">
-              <div>
-                <span className="text-[10px] font-mono uppercase tracking-widest text-neutral-400">Headquarters</span>
-                <h3 className="text-xl font-bold text-neutral-900 font-display mt-1">
-                  Capture Creatives Studio
-                </h3>
-                <p className="text-xs text-neutral-500 mt-1">
-                  End-to-End Creative & Technology Solutions
-                </p>
-              </div>
+          {/* Left Column: Direct Studio Meta & Interactive Globe */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="p-7 sm:p-8 rounded-3xl bg-white border border-neutral-200/90 shadow-xs space-y-6">
+              
+              {/* Heading */}
+              <h3 className="text-xl sm:text-2xl font-bold text-neutral-900 font-display">
+                Capture Creatives Studio
+              </h3>
 
-              <div className="space-y-4 pt-2 border-t border-neutral-100">
+              {/* Horizontal Line */}
+              <hr className="border-neutral-200" />
+
+              {/* Mail, Number, Address */}
+              <div className="space-y-4">
                 <a
                   href={`mailto:${COMPANY_INFO.email}`}
-                  className="flex items-start space-x-3.5 text-xs text-neutral-700 hover:text-[#D97706] transition-colors group"
+                  className="flex items-start space-x-3.5 text-xs text-neutral-700 hover:text-neutral-900 transition-colors group"
                 >
-                  <div className="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center text-neutral-700 group-hover:bg-amber-50 group-hover:text-[#D97706] transition-colors shrink-0">
+                  <div className="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center text-neutral-700 shrink-0">
                     <Mail className="w-4 h-4" />
                   </div>
                   <div>
                     <span className="block text-[10px] font-mono text-neutral-400 uppercase">Direct Email</span>
-                    <span className="font-semibold text-neutral-900 text-sm">{COMPANY_INFO.email}</span>
+                    <span className="font-semibold text-neutral-900 text-sm group-hover:underline">
+                      {COMPANY_INFO.email}
+                    </span>
                   </div>
                 </a>
 
                 <a
                   href={`tel:${COMPANY_INFO.phone}`}
-                  className="flex items-start space-x-3.5 text-xs text-neutral-700 hover:text-[#D97706] transition-colors group"
+                  className="flex items-start space-x-3.5 text-xs text-neutral-700 hover:text-neutral-900 transition-colors group"
                 >
-                  <div className="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center text-neutral-700 group-hover:bg-amber-50 group-hover:text-[#D97706] transition-colors shrink-0">
+                  <div className="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center text-neutral-700 shrink-0">
                     <Phone className="w-4 h-4" />
                   </div>
                   <div>
                     <span className="block text-[10px] font-mono text-neutral-400 uppercase">Direct Phone</span>
-                    <span className="font-semibold text-neutral-900 text-sm">{COMPANY_INFO.phone}</span>
+                    <span className="font-semibold text-neutral-900 text-sm group-hover:underline">
+                      {COMPANY_INFO.phone}
+                    </span>
                   </div>
                 </a>
 
@@ -138,21 +98,38 @@ export const ContactSection: React.FC = () => {
                 </div>
               </div>
 
-              {/* Instant WhatsApp Quick Box */}
-              <div className="pt-4 border-t border-neutral-100">
-                <button
-                  type="button"
-                  onClick={handleWhatsApp}
-                  className="w-full py-3 px-4 bg-transparent hover:bg-neutral-900 text-neutral-900 hover:text-white border-2 border-neutral-900 rounded-xl text-xs font-bold tracking-wider flex items-center justify-center space-x-2 transition-all duration-200"
-                >
-                  <MessageSquare className="w-4 h-4" />
-                  <span>START INSTANT WHATSAPP CHAT</span>
-                </button>
+              {/* Horizontal Line */}
+              <hr className="border-neutral-200" />
+
+              {/* Globe in white bg, black lines, no outlines or extra elements anywhere */}
+              <div className="relative overflow-hidden h-64 sm:h-72 w-full bg-white flex items-center justify-center">
+                <GlobeWireframe
+                  className="w-full aspect-square max-w-full absolute inset-0 m-auto"
+                  variant="wireframesolid"
+                  initialRotation={[-70.8, -22.3]}
+                  autoRotate={true}
+                  autoRotateSpeed={0.2}
+                  enableInteraction={true}
+                  strokeWidth={0.8}
+                  strokeColor="#000000"
+                  sphereOutlineColor="#000000"
+                  sphereOutlineWidth={1}
+                  scale={1.05}
+                  backgroundColor="#FFFFFF"
+                  showBottomBlue={true}
+                  bottomBlueHeight={0.33}
+                  bottomBlueColor="#2563EB"
+                  showWhiteOverlay={true}
+                  whiteOverlayHeight={0.33}
+                />
+                {/* White overlay gradient covering from bottom to 1/3 height of globe */}
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-white via-white/85 to-transparent z-10" />
               </div>
+
             </div>
 
-            {/* Operating Hours & Availability */}
-            <div className="p-6 rounded-2xl bg-white border border-neutral-200 text-xs text-neutral-600 flex items-center justify-between">
+            {/* Operating Hours & Availability Status */}
+            <div className="p-5 rounded-2xl bg-white border border-neutral-200 text-xs text-neutral-600 flex items-center justify-between">
               <div className="flex items-center space-x-2.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
                 <span className="font-medium text-neutral-800">{COMPANY_INFO.availability}</span>
@@ -161,156 +138,18 @@ export const ContactSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Premium Contact Form */}
+          {/* Right Column: Premium Elevated Inquiry Form with Step-by-Step Questionnaire */}
           <div className="lg:col-span-7">
-            <div className="p-8 sm:p-10 rounded-3xl bg-white border border-neutral-200 shadow-md">
-              {!submitted ? (
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-neutral-600 mb-2">
-                        Full Name *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="e.g. Rahul Sharma"
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full px-4 py-3 bg-[#FAFAF9] border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-[#F9BA1D]/40 focus:border-[#F9BA1D] transition-all"
-                      />
-                    </div>
+            <div className="relative rounded-3xl bg-white border border-neutral-200/90 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.03)] p-7 sm:p-9 lg:p-10 overflow-hidden">
+              
+              {/* Amber Accent Top Bar */}
+              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-amber-500/10 via-amber-500/70 to-amber-500/10" />
+              
+              {/* Ambient decorative glow */}
+              <div className="pointer-events-none absolute -top-24 -right-24 w-60 h-60 bg-amber-500/5 rounded-full blur-3xl" />
 
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-neutral-600 mb-2">
-                        Company / Brand Name
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="e.g. Prabhu Group"
-                        value={formData.company}
-                        onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                        className="w-full px-4 py-3 bg-[#FAFAF9] border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-[#F9BA1D]/40 focus:border-[#F9BA1D] transition-all"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-neutral-600 mb-2">
-                        Email Address *
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        placeholder="name@company.com"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full px-4 py-3 bg-[#FAFAF9] border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-[#F9BA1D]/40 focus:border-[#F9BA1D] transition-all"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-neutral-600 mb-2">
-                        Phone / WhatsApp *
-                      </label>
-                      <input
-                        type="tel"
-                        required
-                        placeholder="+91 98765 43210"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="w-full px-4 py-3 bg-[#FAFAF9] border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-[#F9BA1D]/40 focus:border-[#F9BA1D] transition-all"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-neutral-600 mb-2">
-                        Service Required *
-                      </label>
-                      <select
-                        value={formData.service}
-                        onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                        className="w-full px-4 py-3 bg-[#FAFAF9] border border-neutral-200 rounded-xl text-xs font-medium text-neutral-800 focus:outline-none focus:ring-2 focus:ring-[#F9BA1D]/40 focus:border-[#F9BA1D]"
-                      >
-                        {SERVICE_OPTIONS.map((opt) => (
-                          <option key={opt} value={opt}>
-                            {opt}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-neutral-600 mb-2">
-                        Budget Range
-                      </label>
-                      <select
-                        value={formData.budget}
-                        onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                        className="w-full px-4 py-3 bg-[#FAFAF9] border border-neutral-200 rounded-xl text-xs font-medium text-neutral-800 focus:outline-none focus:ring-2 focus:ring-[#F9BA1D]/40 focus:border-[#F9BA1D]"
-                      >
-                        {BUDGET_RANGES.map((opt) => (
-                          <option key={opt} value={opt}>
-                            {opt}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-neutral-600 mb-2">
-                      Project Details & Objectives
-                    </label>
-                    <textarea
-                      rows={4}
-                      placeholder="Outline your requirements, current pain points, deliverables or expected timeline..."
-                      value={formData.details}
-                      onChange={(e) => setFormData({ ...formData, details: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#FAFAF9] border border-neutral-200 rounded-xl text-xs text-neutral-900 focus:outline-none focus:ring-2 focus:ring-[#F9BA1D]/40 focus:border-[#F9BA1D] resize-none transition-all"
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full py-4 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-xs font-bold tracking-wider flex items-center justify-center space-x-2 transition-all shadow-md disabled:opacity-50"
-                  >
-                    {loading ? (
-                      <span>TRANSMITTING INQUIRY...</span>
-                    ) : (
-                      <>
-                        <span>SEND PROJECT REQUEST</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </>
-                    )}
-                  </button>
-                </form>
-              ) : (
-                <div className="py-12 text-center space-y-4">
-                  <div className="w-16 h-16 bg-amber-50 text-[#D97706] rounded-2xl flex items-center justify-center mx-auto border border-amber-200">
-                    <CheckCircle className="w-8 h-8" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-neutral-900 font-display">
-                    Thank You, {formData.name}
-                  </h3>
-                  <p className="text-xs text-neutral-600 max-w-md mx-auto leading-relaxed">
-                    Your project inquiry for <span className="font-semibold text-neutral-900">{formData.service}</span> has been securely transmitted. A partner from Capture Creatives will get in touch with you shortly.
-                  </p>
-                  <div className="pt-4">
-                    <button
-                      type="button"
-                      onClick={() => setSubmitted(false)}
-                      className="px-6 py-2.5 bg-neutral-100 hover:bg-neutral-200 text-neutral-800 rounded-xl text-xs font-semibold"
-                    >
-                      Send Another Message
-                    </button>
-                  </div>
-                </div>
-              )}
+              {/* Shared Questionnaire Wizard */}
+              <ProjectInquiryWizard isModal={false} />
             </div>
           </div>
 
@@ -320,3 +159,5 @@ export const ContactSection: React.FC = () => {
     </section>
   );
 };
+
+export default ContactSection;

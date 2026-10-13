@@ -14,6 +14,23 @@
   --font-display: 'Syne', 'Space Grotesk', system-ui, -apple-system, sans-serif;
   --font-quicksand: 'Quicksand', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-dm-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+
+  /* shadcn Theme Tokens */
+  --color-background: #FAFAF9;
+  --color-foreground: #18181B;
+  --color-primary: #18181B;
+  --color-primary-foreground: #FAFAF9;
+  --color-secondary: #F4F4F5;
+  --color-secondary-foreground: #18181B;
+  --color-muted: #F4F4F5;
+  --color-muted-foreground: #71717A;
+  --color-accent: #F4F4F5;
+  --color-accent-foreground: #18181B;
+  --color-destructive: #EF4444;
+  --color-destructive-foreground: #FFFFFF;
+  --color-border: #E4E4E7;
+  --color-input: #E4E4E7;
+  --color-ring: #18181B;
 }
 
 @layer base {
